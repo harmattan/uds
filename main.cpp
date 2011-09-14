@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
                     % QLatin1Literal("/../qml/ubuntudevelopersummit/main.qml")));
     view->showFullScreen();
 #else
-    view->setMainQmlFile(QLatin1String("qml/ubuntudevelopersummit/main.qml"));
+    view->setMainQmlFile(QLatin1String("qml/desktop/main.qml"));
     view->showExpanded();
 #endif
 

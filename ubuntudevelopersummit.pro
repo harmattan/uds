@@ -13,7 +13,9 @@ MOBILITY = organizer versit
 # Add more folders to ship with the application, here
 folder_01.source = qml/ubuntudevelopersummit
 folder_01.target = qml
-DEPLOYMENTFOLDERS = folder_01
+folder_02.source = qml/desktop
+folder_02.target = qml
+DEPLOYMENTFOLDERS = folder_01 folder_02
 
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
@@ -54,11 +56,13 @@ OTHER_FILES += \
     qtc_packaging/debian_harmattan/compat \
     qtc_packaging/debian_harmattan/changelog \
     qml/ubuntudevelopersummit/ical.js \
-    qml/ubuntudevelopersummit/script.js
+    qml/ubuntudevelopersummit/script.js \
+    qml/desktop/main.qml
 
 HEADERS += \
     banner.h \
     RemoteManager.h
+
 
 
 
