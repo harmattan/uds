@@ -26,7 +26,6 @@ PageStackWindow {
         var parser = Qt.createComponent("ICalParser.qml").createObject(null)
         parser.parse(manager)
         var model = parser.ical.events
-        parser.destroy()
 
         var models = new Array(7)
         for (var i = 0; i < models.length; ++i) {
@@ -55,7 +54,6 @@ PageStackWindow {
         var parser = Qt.createComponent("ICalParser.qml").createObject(null)
         parser.parse(string)
         var model = parser.ical.events
-        parser.destroy()
         userPage.model = model
         userPage.modelSet = true
     }
