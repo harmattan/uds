@@ -16,12 +16,13 @@ QtObject {
         var matches = icalString.match(reg);
         if (matches) {
             for (var i = 0; i < matches.length; ++i) {
-                console.log(matches[i]);
+//                console.log(matches[i]);
                 parseEvent(matches[i]);
             }
         }
         console.debug('parsed');
         ical.events = Script.getList()
+
         console.debug(ical.version)
         console.debug(ical.events.length)
     }
@@ -34,18 +35,19 @@ QtObject {
             console.debug("NO UTC DATE!!!")
             Qt.quit()
         }
-        return new Date(matches[1], matches[2], matches[3], matches[4], matches[5], matches[6])
+
+        // FIXME: Terrible terrible! Month starts at 0, ical starts at 1...
+        return new Date(matches[1], matches[2]-1, matches[3], matches[4], matches[5], matches[6])
     }
 
     function parseEvent(veventString) {
         var eventComponent = Qt.createComponent("Event.qml")
-        var event = eventComponent.createObject(this)
-
-        event.uid = __getValue('UID', veventString)
+        var event = eventComponent.createObject(parent)
 
         event.start = __stringToDate(__getValue('DTSTART', veventString))
         event.end   = __stringToDate(__getValue('DTEND', veventString))
 
+        event.uid = __getValue('UID', veventString)
         event.categories = __getValue('CATEGORIES', veventString,true)
         event.summary = __getValue('SUMMARY',veventString)
         event.location = __getValue('LOCATION', veventString)

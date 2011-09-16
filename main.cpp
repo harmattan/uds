@@ -10,12 +10,13 @@
 
 #ifdef Q_WS_MAEMO_6
 #include <applauncherd/MDeclarativeCache>
-#include "banner.h"
 #else
 #include "qmlapplicationviewer.h"
 #endif
 
+#include "DesktopServices.h"
 #include "RemoteManager.h"
+#include "Settings.h"
 
 int main(int argc, char *argv[])
 {
@@ -24,20 +25,25 @@ int main(int argc, char *argv[])
     QScopedPointer<QApplication> app(MDeclarativeCache::qApplication(argc, argv));
     QScopedPointer<QDeclarativeView> view(MDeclarativeCache::qDeclarativeView());
     QObject::connect(view->engine(), SIGNAL(quit()), view.data(), SLOT(close()));
-
-    qmlRegisterType<Banner>("UDS", 1, 0, "Banner");
 #else
     QScopedPointer<QApplication> app(new QApplication(argc, argv));
     QScopedPointer<QmlApplicationViewer> view(new QmlApplicationViewer());
     view->setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
 #endif
 
-    qmlRegisterType<RemoteManager>();
-    RemoteManager manager;
-//    QThread thread;
-//    thread.start();
-//    manager.moveToThread(&thread);
-    view->rootContext()->setContextProperty("remoteManager", &manager);
+    // For QSettings
+    QCoreApplication::setOrganizationName("Ubuntu");
+    QCoreApplication::setOrganizationDomain("ubuntu.com");
+    QCoreApplication::setApplicationName("summit");
+
+    qmlRegisterType<DesktopServices>("com.ubuntu.summit", 1, 0, "DesktopServices");
+    qmlRegisterType<RemoteManager>("com.ubuntu.summit", 1, 0, "Calendar");
+    qmlRegisterType<Settings>("com.ubuntu.summit", 1, 0, "Settings");
+//    RemoteManager manager;
+////    QThread thread;
+////    thread.start();
+////    manager.moveToThread(&thread);
+//    view->rootContext()->setContextProperty("remoteManager", &manager);
 
 #ifdef Q_WS_MAEMO_6
     view->setSource(QUrl::fromLocalFile(MDeclarativeCache::applicationDirPath()

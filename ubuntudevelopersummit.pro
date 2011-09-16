@@ -6,8 +6,9 @@ MOBILITY = organizer versit
     DEFINES += Q_WS_MAEMO_6
     DEFINES += MEEGO_EDITION_HARMATTAN
     CONFIG  += qdeclarative-boostable
-    CONFIG  += meegotouch
-    CONFIG  += mkcal
+
+#    CONFIG  += kcalcoren
+#    DEFINES += UDS_WITH_KCAL
 }
 
 # Add more folders to ship with the application, here
@@ -55,13 +56,25 @@ OTHER_FILES += \
     qtc_packaging/debian_harmattan/control \
     qtc_packaging/debian_harmattan/compat \
     qtc_packaging/debian_harmattan/changelog \
-    qml/ubuntudevelopersummit/ical.js \
     qml/ubuntudevelopersummit/script.js \
+    qml/ubuntudevelopersummit/icon.png \
     qml/desktop/main.qml
 
 HEADERS += \
-    banner.h \
-    RemoteManager.h
+    RemoteManager.h \
+    DesktopServices.h \
+    Settings.h
+
+
+
+
+
+
+
+
+
+
+
 
 
 
