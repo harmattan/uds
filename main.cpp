@@ -48,6 +48,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<RemoteManager>("com.ubuntu.summit", 1, 0, "Calendar");
     qmlRegisterType<Settings>("com.ubuntu.summit", 1, 0, "Settings");
 #ifdef Q_WS_MAEMO_5
+    qmlRegisterType<StackedWindow>("com.ubuntu.summit.maemo", 5, 0, "StackedWindow");
     qmlRegisterType<Window>("com.ubuntu.summit.maemo", 5, 0, "Window");
     qmlRegisterType<WindowStack>();
 #endif

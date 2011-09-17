@@ -1,9 +1,13 @@
 import QtQuick 1.0
 import com.ubuntu.summit.maemo 5.0
 
-Window {
-    id: mainWindow
-    title: "Ubuntu Developer Summit"
+StackedWindow {
+    id: appWindow
+
+    initialWindow: Window {
+        id: mainWindow
+        title: "Ubuntu Developer Summit"
+    }
 
     Window {
         id: otherWindow

@@ -25,22 +25,39 @@ private:
     QStack<MainWindow *> m_stack;
 };
 
-//class StackedWindow : public QDeclarativeItem
-//{
-//    Q_OBJECT
-//public:
-//    StackedWindow(QDeclarativeItem *parent = 0) : QDeclarativeItem(parent) {}
-//    ~StackedWindow() {}
-//};
+class Window;
+class StackedWindow : public QDeclarativeItem
+{
+    Q_OBJECT
+    Q_PROPERTY(WindowStack* windowStack READ windowStack)
+    Q_PROPERTY(Window* initialWindow READ initialWindow WRITE setInitialWindow)
+public:
+    StackedWindow(QDeclarativeItem *parent = 0) :
+        QDeclarativeItem(parent),
+        m_initialWindow(0),
+        m_stack(new WindowStack)
+    {}
+    ~StackedWindow()
+    {
+        delete m_stack;
+    }
+
+    WindowStack *windowStack() const { return m_stack; }
+    void setWindowStack(WindowStack *stack) { m_stack = stack; }
+
+    Window *initialWindow() const { return m_initialWindow; }
+    void setInitialWindow(Window *window) { m_initialWindow = window; }
+
+private:
+    Window *m_initialWindow;
+    WindowStack *m_stack;
+};
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    MainWindow()
-    {
-        setAttribute(Qt::WA_Maemo5StackedWindow);
-    }
+    MainWindow() { setAttribute(Qt::WA_Maemo5StackedWindow); }
     ~MainWindow() {}
 
     QGraphicsScene *scene() { return m_view->scene(); }
@@ -64,6 +81,7 @@ public:
     QString title() const;
     void setTitle(const QString &title);
 
+    // The stack this window is in, or null
     WindowStack *windowStack();
     void setWindowStack(WindowStack *stack);
 
