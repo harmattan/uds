@@ -72,7 +72,7 @@ Page {
                     id: content
                     text: "<a href=\"mailto:apachelogger@ubuntu.com\">apachelogger@ubuntu.com</a>"
                     width: parent.width
-                    onLinkActivated: Qt.createComponent("DesktopServices.qml").createObject(null).openUrl(link)
+                    onLinkActivated: Qt.openUrlExternally(link)
                 }
             }
         }
