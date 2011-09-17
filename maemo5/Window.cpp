@@ -1,5 +1,7 @@
 #include "Window.h"
 
+#include <QtGui/QResizeEvent>
+
 void WindowStack::push(QObject *object)
 {
     Window *window = qobject_cast<Window *>(object);
@@ -24,10 +26,39 @@ bool WindowStack::eventFilter(QObject *obj, QEvent *event)
 {
     if (event->type() == QEvent::Hide) {
         Q_ASSERT(obj == m_stack.last());
+        obj->removeEventFilter(this);
         m_stack.pop();
     }
     // standard event processing
     return QObject::eventFilter(obj, event);
+}
+
+// -------------------------------------------------------------------------- //
+
+MainWindow::MainWindow() :
+    m_view(new QDeclarativeView)
+{
+    setAttribute(Qt::WA_Maemo5StackedWindow);
+    setCentralWidget(m_view);
+}
+
+MainWindow::~MainWindow()
+{
+    delete m_view;
+}
+
+bool MainWindow::event(QEvent *event)
+{
+    switch (event->type()) {
+    case QEvent::Resize: {
+        const QResizeEvent *resize = static_cast<const QResizeEvent *>(event);
+        emit sizeChanged(resize->size());
+        break;
+    }
+    default:
+        break;
+    }
+    return QMainWindow::event(event);
 }
 
 // -------------------------------------------------------------------------- //
@@ -39,6 +70,9 @@ Window::Window(QDeclarativeItem *parent) :
 {
     connect(this, SIGNAL(parentChanged(QDeclarativeItem*)),
             this, SLOT(updateMainWindowParent(QDeclarativeItem*)));
+    connect(m_window, SIGNAL(sizeChanged(QSize)),
+            this, SLOT(updateSize(QSize)));
+    m_window->view()->setResizeMode(QDeclarativeView::SizeRootObjectToView);
 }
 
 Window::~Window()
@@ -48,6 +82,8 @@ Window::~Window()
 
 void Window::componentComplete()
 {
+    m_window->scene()->addItem(this);
+    QDeclarativeItem::componentComplete();
 }
 
 QString Window::title() const
@@ -75,4 +111,9 @@ void Window::updateMainWindowParent(QDeclarativeItem *parent)
     MainWindow *parentWindow = qobject_cast<MainWindow *>(parent);
     if (parentWindow)
         m_window->setParent(parentWindow);
+}
+
+void Window::updateSize(QSize newSize)
+{
+    QDeclarativeItem::setSize(newSize);
 }

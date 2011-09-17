@@ -57,11 +57,17 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 public:
-    MainWindow() { setAttribute(Qt::WA_Maemo5StackedWindow); }
-    ~MainWindow() {}
+    MainWindow();
+    ~MainWindow();
 
     QGraphicsScene *scene() { return m_view->scene(); }
     QDeclarativeView *view() { return m_view; }
+
+signals:
+    void sizeChanged(QSize newSize);
+
+protected:
+    virtual bool event(QEvent *event);
 
 private:
     QDeclarativeView *m_view;
@@ -92,6 +98,7 @@ signals:
 
 private slots:
     void updateMainWindowParent(QDeclarativeItem *parent);
+    void updateSize(QSize newSize);
 
 private:
     MainWindow *m_window;
