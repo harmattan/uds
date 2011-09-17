@@ -11,12 +11,24 @@ MOBILITY = organizer versit
 #    DEFINES += UDS_WITH_KCAL
 }
 
+maemo5 {
+    DEFINES += Q_WS_MAEMO_5
+    SOURCES += \
+        maemo5/Window.cpp \
+        maemo5/DeclarativeShell.cpp
+    HEADERS += \
+        maemo5/Window.h \
+        maemo5/DeclarativeShell.h
+}
+
 # Add more folders to ship with the application, here
 folder_01.source = qml/ubuntudevelopersummit
 folder_01.target = qml
 folder_02.source = qml/desktop
 folder_02.target = qml
-DEPLOYMENTFOLDERS = folder_01 folder_02
+folder_03.source = qml/maemo5
+folder_03.target = qml
+DEPLOYMENTFOLDERS = folder_01 folder_02 folder_03
 
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
@@ -58,12 +70,29 @@ OTHER_FILES += \
     qtc_packaging/debian_harmattan/changelog \
     qml/ubuntudevelopersummit/script.js \
     qml/ubuntudevelopersummit/icon.png \
-    qml/desktop/main.qml
+    qml/desktop/main.qml \
+    qtc_packaging/debian_fremantle/rules \
+    qtc_packaging/debian_fremantle/README \
+    qtc_packaging/debian_fremantle/copyright \
+    qtc_packaging/debian_fremantle/control \
+    qtc_packaging/debian_fremantle/compat \
+    qtc_packaging/debian_fremantle/changelog \
+    qml/maemo5/main.qml
 
 HEADERS += \
     RemoteManager.h \
     DesktopServices.h \
     Settings.h
+
+
+
+
+
+
+
+
+
+
 
 
 

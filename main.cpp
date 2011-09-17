@@ -10,6 +10,9 @@
 
 #ifdef Q_WS_MAEMO_6
 #include <applauncherd/MDeclarativeCache>
+#elif Q_WS_MAEMO_5
+#include <maemo5/DeclarativeShell.h>
+#include <maemo5/Window.h>
 #else
 #include "qmlapplicationviewer.h"
 #endif
@@ -25,6 +28,11 @@ int main(int argc, char *argv[])
     QScopedPointer<QApplication> app(MDeclarativeCache::qApplication(argc, argv));
     QScopedPointer<QDeclarativeView> view(MDeclarativeCache::qDeclarativeView());
     QObject::connect(view->engine(), SIGNAL(quit()), view.data(), SLOT(close()));
+#elif Q_WS_MAEMO_5
+    QScopedPointer<QApplication> app(new QApplication(argc, argv));
+    QScopedPointer<DeclarativeShell> view(new DeclarativeShell());
+#warning TODO
+//    view->setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
 #else
     QScopedPointer<QApplication> app(new QApplication(argc, argv));
     QScopedPointer<QmlApplicationViewer> view(new QmlApplicationViewer());
@@ -39,6 +47,11 @@ int main(int argc, char *argv[])
     qmlRegisterType<DesktopServices>("com.ubuntu.summit", 1, 0, "DesktopServices");
     qmlRegisterType<RemoteManager>("com.ubuntu.summit", 1, 0, "Calendar");
     qmlRegisterType<Settings>("com.ubuntu.summit", 1, 0, "Settings");
+#ifdef Q_WS_MAEMO_5
+    qmlRegisterType<Window>("com.ubuntu.summit.maemo", 5, 0, "Window");
+    qmlRegisterType<WindowStack>();
+#endif
+
 //    RemoteManager manager;
 ////    QThread thread;
 ////    thread.start();
@@ -49,8 +62,10 @@ int main(int argc, char *argv[])
     view->setSource(QUrl::fromLocalFile(MDeclarativeCache::applicationDirPath()
                     % QLatin1Literal("/../qml/ubuntudevelopersummit/main.qml")));
     view->showFullScreen();
+#elif Q_WS_MAEMO_5
+    view->setSource(QLatin1String("qml/maemo5/main.qml"));
 #else
-    view->setMainQmlFile(QLatin1String("qml/desktop/main.qml"));
+    view->setMainQmlFile(QLatin1String("qml/ubuntudevelopersummit/main.qml"));
     view->showExpanded();
 #endif
 
