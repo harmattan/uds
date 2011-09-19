@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ -e libqcalparser ]; then
+  git submodule init
+  git submodule update
+else
+  echo "Erm, there is no libqcalparser dir? wth? go scrw yrslf"
+fi

@@ -6,7 +6,7 @@ Button {
     property int weekDay: 0
     property variant page: undefined
 
-    visible: page !== undefined && page.model !== undefined && page.model.length > 1
+    visible: page !== undefined && page.model !== undefined && page.itemCount > 0
 
     text: WeekDay.numberToString(weekDay)
     onClicked: pageStack.push(page)

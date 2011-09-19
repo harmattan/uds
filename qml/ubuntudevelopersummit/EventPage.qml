@@ -6,7 +6,13 @@ import "constants.js" as UI
 Page {
     id: page
 
-    property Event event
+    property alias summary: titleText.text
+    property alias dtstart: dtstart.value
+    property alias dtend: dtend.value
+    property alias location: location.value
+    property alias description: description.value
+    property alias track: track.value
+    property alias room: room.value
 
     anchors.fill: parent
     tools: commonTools
@@ -23,23 +29,18 @@ Page {
         Item {
             id: container
 
-//            anchors.verticalCenter: parent.verticalCenter
-//            anchors.left: page.left
-
             height: column.height + map.height
             width: column.width + map.width
 
             Column {
                 id: column
 
-                PropertyLabel { label: "Start:"; value: event.start }
-                PropertyLabel { label: "End:"; value: event.end }
-                //        PropertyLabel { label: "Categories:"; value: event.start }
-//                PropertyLabel { label: "Summary:"; value: event.summary }
-                PropertyLabel { label: "Location:"; value: event.location }
-                PropertyLabel { label: "Description:"; value: event.description }
-                PropertyLabel { label: "Track:"; value: event.x_type }
-                PropertyLabel { label: "Room:"; value: event.x_roomname }
+                PropertyLabel { id: dtstart; label: "Start:"; }
+                PropertyLabel { id: dtend; label: "End:"; }
+                PropertyLabel { id: location; label: "Location:"; }
+                PropertyLabel { id: description; label: "Description:"; }
+                PropertyLabel { id: track; label: "Track:"; }
+                PropertyLabel { id: room; label: "Room:"; }
             }
 
             Image {
@@ -69,12 +70,11 @@ Page {
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
-//        color: "#0886CE"
+        //        color: "#0886CE"
         color: "#E3683D"
 
         Label {
             id: titleText
-            text: event.summary
             anchors.verticalCenter: parent.verticalCenter
             verticalAlignment: Text.AlignVCenter
             anchors.left: parent.left

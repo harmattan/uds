@@ -35,6 +35,15 @@ bool WindowStack::eventFilter(QObject *obj, QEvent *event)
 
 // -------------------------------------------------------------------------- //
 
+void StackedWindow::setInitialWindow(Window *window)
+{
+    m_initialWindow = window;
+    if (m_stack->isEmpty())
+        m_stack->push(window);
+}
+
+// -------------------------------------------------------------------------- //
+
 MainWindow::MainWindow() :
     m_view(new QDeclarativeView)
 {

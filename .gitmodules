@@ -1,0 +1,3 @@
+[submodule "libqcalparser"]
+	path = libqcalparser
+	url = https://github.com/shadeslayer/libqcalparser.git

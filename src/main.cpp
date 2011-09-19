@@ -8,6 +8,8 @@
 
 #include <QtGui/QApplication>
 
+#include "qcalevent.h"
+
 #ifdef Q_WS_MAEMO_6
 #include <applauncherd/MDeclarativeCache>
 #elif Q_WS_MAEMO_5
@@ -19,6 +21,7 @@
 
 #include "DesktopServices.h"
 #include "RemoteManager.h"
+#include "SessionModel.h"
 #include "Settings.h"
 
 int main(int argc, char *argv[])
@@ -44,8 +47,12 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationDomain("ubuntu.com");
     QCoreApplication::setApplicationName("summit");
 
+    qmlRegisterType<QCalEvent>();
+    qmlRegisterType<RemoteManager>();
+    qmlRegisterType<SessionModel>();
+
+    qmlRegisterType<FilterProxyModel>("com.ubuntu.summit", 1, 0, "FilterProxyModel");
     qmlRegisterType<DesktopServices>("com.ubuntu.summit", 1, 0, "DesktopServices");
-    qmlRegisterType<RemoteManager>("com.ubuntu.summit", 1, 0, "Calendar");
     qmlRegisterType<Settings>("com.ubuntu.summit", 1, 0, "Settings");
 #ifdef Q_WS_MAEMO_5
     qmlRegisterType<StackedWindow>("com.ubuntu.summit.maemo", 5, 0, "StackedWindow");
@@ -53,11 +60,11 @@ int main(int argc, char *argv[])
     qmlRegisterType<WindowStack>();
 #endif
 
-//    RemoteManager manager;
-////    QThread thread;
-////    thread.start();
-////    manager.moveToThread(&thread);
-//    view->rootContext()->setContextProperty("remoteManager", &manager);
+    QDeclarativeContext *rootContext = view->rootContext();
+    RemoteManager mainCalendar(QLatin1String("mainCalendar"), rootContext);
+    RemoteManager userCalendar(QLatin1String("userCalendar"), rootContext);
+    rootContext->setContextProperty("mainCalendar", &mainCalendar);
+    rootContext->setContextProperty("userCalendar", &userCalendar);
 
 #ifdef Q_WS_MAEMO_6
     view->setSource(QUrl::fromLocalFile(MDeclarativeCache::applicationDirPath()

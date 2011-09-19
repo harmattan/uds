@@ -1,6 +1,7 @@
 import QtQuick 1.1
 import com.nokia.meego 1.0
 import com.nokia.extras 1.0
+import com.ubuntu.summit 1.0
 import "WeekDay.js" as WeekDay
 import "script.js" as FakeList
 
@@ -15,62 +16,51 @@ PageStackWindow {
 
         for (var i = 0; i < 7; ++i) {
             var button = buttonComponent.createObject(mainPage.column, {"weekDay": i})
-            var page = listComponent.createObject(button, {title: WeekDay.numberToString(i)})
+            var page = listComponent.createObject(button, { title: WeekDay.numberToString(i)} )
+
+            page.dayOfWeek = i
+            page.model = mainCalendar.sessionModel
+
             FakeList.addItem(page)
             button.page = page
+
         }
         listPages = FakeList.getList()
     }
 
-    function onItemsChanged(manager) {
-        var parser = Qt.createComponent("ICalParser.qml").createObject(null)
-        parser.parse(manager)
-        var model = parser.ical.events
-
-        var models = new Array(7)
-        for (var i = 0; i < models.length; ++i) {
-            models[i] = new Array()
-        }
-
-        for (var i = 0; i < model.length; ++i) {
-            for (var j = 0; j < models.length; ++j) {
-                if (model[i].weekDayNumber == j)
-                    models[j].push(model[i])
-            }
-        }
-
+    function onEventsChanged() {
+        console.debug("hooooo")
         if (listPages === undefined)
             initListPages()
 
-        for (i = 0; i < listPages.length; ++i) {
-            listPages[i].model = models[i]
-        }
-
         mainPage.busy = false
-    }
-
-    function onUserItemsChanged(string) {
-        console.debug("-----------onUserItemsChanged----------------")
-        var parser = Qt.createComponent("ICalParser.qml").createObject(null)
-        parser.parse(string)
-        var model = parser.ical.events
-        userPage.model = model
-        userPage.modelSet = true
+        console.debug("SFSDFSDFSDFSDRFSDFSDF")
     }
 
     function update() {
-        var component = Qt.createComponent("Calendar.qml")
-        var main = component.createObject(appWindow)
-        main.itemsChanged.connect(onItemsChanged)
-        main.update("http://summit.ubuntu.com/uds-o.ical")
+        console.debug("UPDATE!!$!!#@%$!%!%!%!%")
+        mainCalendar.eventsChanged.connect(onEventsChanged)
+        mainCalendar.update("http://summit.ubuntu.com/uds-o.ical")
 
         var username = Qt.createComponent("Settings.qml").createObject(null).value("lpuser")
         if (username) {
             console.debug(username)
             userPage.title = username
-            var user = Qt.createComponent("Calendar.qml").createObject(appWindow)
-            user.itemsChanged.connect(onUserItemsChanged)
-            user.update("http://summit.ubuntu.com/uds-o/participant/" + username + ".ical")
+            userCalendar.update("http://summit.ubuntu.com/uds-o/participant/" + username + ".ical")
+        } else {
+            console.debug("username empty")
+        }
+    }
+
+    function updateFromCache() {
+        mainCalendar.eventsChanged.connect(onEventsChanged)
+        mainCalendar.updateFromCache("http://summit.ubuntu.com/uds-o.ical")
+
+        var username = Qt.createComponent("Settings.qml").createObject(null).value("lpuser")
+        if (username) {
+            console.debug(username)
+            userPage.title = username
+            userCalendar.updateFromCache("http://summit.ubuntu.com/uds-o/participant/" + username + ".ical")
         } else {
             console.debug("username empty")
         }
@@ -80,7 +70,7 @@ PageStackWindow {
     showStatusBar: true
     initialPage: MainPage { id: mainPage }
 
-    UserPage { id: userPage }
+    ListPage { id: userPage; model: userCalendar.sessionModel }
 
     InfoBanner {
         id: banner
@@ -103,7 +93,7 @@ PageStackWindow {
             onClicked: { pageStack.clear(); pageStack.push(initialPage) }
         }
         ToolIcon {
-            enabled: userPage.modelSet && !(pageStack.currentPage == userPage)
+            enabled: !(pageStack.currentPage == userPage) && userPage.itemCount > 0
             platformIconId: enabled ? "icon-m-toolbar-contact" : "icon-m-toolbar-contact-dimmed"
             onClicked: { pageStack.clear(); pageStack.push(userPage) }
         }
@@ -135,9 +125,9 @@ PageStackWindow {
             MenuItem { text: qsTr("Landscape"); onClicked: screen.allowedOrientations = Screen.Landscape }
             MenuItem { text: qsTr("Portrait"); onClicked: screen.allowedOrientations = Screen.Portrait }
             MenuItem {
-                property bool isAboutPage: pageStack.currentPage.objectName === "aboutPage"
+                property bool isAboutPage: pageStack.currentPage !== null && pageStack.currentPage.objectName === "aboutPage"
                 text: qsTr("About")
-                enabled: pageStack.currentPage.objectName === "aboutPage" ? false: true
+                enabled: isAboutPage
                 onClicked: pageStack.push(Qt.createComponent("AboutPage.qml"))
                 onEnabledChanged: style.textColor = enabled ? "black" : "grey"
             }
@@ -145,6 +135,7 @@ PageStackWindow {
     }
 
     Component.onCompleted: {
-        update()
+//        updateFromCache();
+        Qt.createComponent("InitialUpdateTimer.qml").createObject(appWindow)
     }
 }

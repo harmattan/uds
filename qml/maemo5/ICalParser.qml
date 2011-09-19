@@ -1,0 +1,1 @@
+../ubuntudevelopersummit/ICalParser.qml

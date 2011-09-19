@@ -39,7 +39,11 @@
 ****************************************************************************/
 
 .pragma library
-
+var getKeys = function(obj){
+   for(var key in obj){
+        console.debug(key)
+   }
+}
 /* Margins */
 var INDENT_DEFAULT = 16;
 var CORNER_MARGINS = 22;

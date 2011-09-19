@@ -11,8 +11,6 @@ Rectangle {
     width: 640
     height: 480
 
-    ICalParser { id: parser }
-
     ListView {
         id: listview
         anchors.fill: parent
@@ -34,7 +32,5 @@ Rectangle {
     }
 
     Component.onCompleted: {
-        remoteManager.itemsChanged.connect(onItemsChanged)
-        remoteManager.update()
     }
 }

@@ -15,6 +15,8 @@ public:
     WindowStack() {}
     ~WindowStack() {}
 
+    bool isEmpty() const { return m_stack.isEmpty(); }
+
 public slots:
     void push(QObject *object);
 
@@ -46,7 +48,7 @@ public:
     void setWindowStack(WindowStack *stack) { m_stack = stack; }
 
     Window *initialWindow() const { return m_initialWindow; }
-    void setInitialWindow(Window *window) { m_initialWindow = window; }
+    void setInitialWindow(Window *window);
 
 private:
     Window *m_initialWindow;
