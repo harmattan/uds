@@ -28,8 +28,6 @@ void FileParserRunnable::run()
             !cacheFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
         cacheFile.open(QIODevice::ReadOnly | QIODevice::Text);
 
-            qDebug() << Q_FUNC_INFO << m_path;
-            qDebug() << Q_FUNC_INFO<< cacheFile.readAll();
         QCalParser parser;
         parser.parse(&cacheFile);
         emit done(parser.eventList());

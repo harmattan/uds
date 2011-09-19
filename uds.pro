@@ -88,3 +88,4 @@ HEADERS += \
 include(src/qmlapplicationviewer/qmlapplicationviewer.pri)
 qtcAddDeployment()
 
+

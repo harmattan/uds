@@ -2,8 +2,10 @@ import QtQuick 1.1
 import com.nokia.meego 1.0
 import com.nokia.extras 1.0
 import com.ubuntu.summit 1.0
-import "../core/weekday.js" as WeekDay
+import "../core"
+import "../core/core.js" as Core
 import "../core/fakelist.js" as FakeList
+import "../core/weekday.js" as WeekDay
 
 PageStackWindow {
     id: appWindow
@@ -28,42 +30,15 @@ PageStackWindow {
         listPages = FakeList.getList()
     }
 
-    function onEventsChanged() {
-        console.debug("hooooo")
+    function onMainEventsChanged() {
         if (listPages === undefined)
             initListPages()
 
         mainPage.busy = false
-        console.debug("SFSDFSDFSDFSDRFSDFSDF")
     }
 
-    function update() {
-        console.debug("UPDATE!!$!!#@%$!%!%!%!%")
-        mainCalendar.eventsChanged.connect(onEventsChanged)
-        mainCalendar.update("http://summit.ubuntu.com/uds-o.ical")
-
-        var username = Qt.createComponent("Settings.qml").createObject(null).value("lpuser")
-        if (username) {
-            console.debug(username)
-            userPage.title = username
-            userCalendar.update("http://summit.ubuntu.com/uds-o/participant/" + username + ".ical")
-        } else {
-            console.debug("username empty")
-        }
-    }
-
-    function updateFromCache() {
-        mainCalendar.eventsChanged.connect(onEventsChanged)
-        mainCalendar.updateFromCache("http://summit.ubuntu.com/uds-o.ical")
-
-        var username = Qt.createComponent("Settings.qml").createObject(null).value("lpuser")
-        if (username) {
-            console.debug(username)
-            userPage.title = username
-            userCalendar.updateFromCache("http://summit.ubuntu.com/uds-o/participant/" + username + ".ical")
-        } else {
-            console.debug("username empty")
-        }
+    function onUserEventsChanged() {
+        userPage.title = Qt.createComponent("Settings.qml").createObject(null).value("lpuser")
     }
 
     showToolBar: true
@@ -98,7 +73,6 @@ PageStackWindow {
             onClicked: { pageStack.clear(); pageStack.push(userPage) }
         }
         ToolIcon {
-//            enabled: appWindow.pa
             platformIconId: "icon-m-toolbar-search"
             onClicked: { pageStack.clear(); pageStack.push(Qt.createComponent("MapPage.qml")) }
         }
@@ -134,7 +108,9 @@ PageStackWindow {
     }
 
     Component.onCompleted: {
-//        updateFromCache();
+        mainCalendar.eventsChanged.connect(onMainEventsChanged)
+        userCalendar.eventsChanged.connect(onUserEventsChanged)
+        Core.updateFromCache();
         Qt.createComponent("InitialUpdateTimer.qml").createObject(appWindow)
     }
 }
