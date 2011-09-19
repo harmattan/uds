@@ -7,7 +7,7 @@
 #include <QtDeclarative/qdeclarative.h>
 
 #include <QtGui/QApplication>
-#include <QDebug>
+
 #include "qcalevent.h"
 
 #ifdef Q_WS_MAEMO_6
@@ -78,7 +78,6 @@ int main(int argc, char *argv[])
             ;
 
 #ifdef Q_WS_MAEMO_6
-    qDebug() << source;
     view->setSource(source);
     view->showFullScreen();
 #else
