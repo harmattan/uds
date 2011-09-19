@@ -7,7 +7,7 @@
 #include <QtDeclarative/qdeclarative.h>
 
 #include <QtGui/QApplication>
-
+#include <QDebug>
 #include "qcalevent.h"
 
 #ifdef Q_WS_MAEMO_6
@@ -26,18 +26,6 @@
 
 int main(int argc, char *argv[])
 {
-    QString source =
-        #ifdef Q_WS_MAEMO_6
-            MDeclarativeCache::applicationDirPath() % QLatin1Literal("/../qml/ubuntudevelopersummit/main.qml")
-        #elif Q_WS_MAEMO_5
-            QLatin1String("qml/maemo5/main.qml")
-        #elif Q_WS_SYMBIAN
-            QLatin1String("qml/symbian/main.qml")
-        #else
-            QLatin1String("qml/ubuntudevelopersummit/main.qml")
-        #endif
-            ;
-
 #ifdef Q_WS_MAEMO_6
     QScopedPointer<QApplication> app(MDeclarativeCache::qApplication(argc, argv));
     QScopedPointer<QDeclarativeView> view(MDeclarativeCache::qDeclarativeView());
@@ -77,7 +65,20 @@ int main(int argc, char *argv[])
     rootContext->setContextProperty("mainCalendar", &mainCalendar);
     rootContext->setContextProperty("userCalendar", &userCalendar);
 
+    QString source =
+        #ifdef Q_WS_MAEMO_6
+            MDeclarativeCache::applicationDirPath() % QLatin1Literal("/../qml/ubuntudevelopersummit/main.qml")
+        #elif Q_WS_MAEMO_5
+            QLatin1String("qml/maemo5/main.qml")
+        #elif Q_WS_SYMBIAN
+            QLatin1String("qml/symbian/main.qml")
+        #else
+            QLatin1String("qml/ubuntudevelopersummit/main.qml")
+        #endif
+            ;
+
 #ifdef Q_WS_MAEMO_6
+    qDebug() << source;
     view->setSource(source);
     view->showFullScreen();
 #else
