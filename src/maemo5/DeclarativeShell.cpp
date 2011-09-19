@@ -38,7 +38,7 @@ static QString adjustPath(const QString &path)
     return path;
 }
 
-void DeclarativeShell::setSource(const QString &file)
+void DeclarativeShell::setMainQmlFile(const QString &file)
 {
     QUrl url = QUrl::fromLocalFile(adjustPath(file));
     // FIXME this is all a bit flimsy

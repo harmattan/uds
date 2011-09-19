@@ -14,10 +14,13 @@ public:
     DeclarativeShell(QObject *parent = 0);
     ~DeclarativeShell();
 
-    void setSource(const QString &file);
+    void setMainQmlFile(const QString &file);
 
     QDeclarativeEngine *engine() const;
     QDeclarativeContext *rootContext() const;
+
+    // Discard, needed for compatiblity with qmlappviewer
+    void showExpanded() {}
 
 private:
     QDeclarativeComponent *m_component;

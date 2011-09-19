@@ -36,6 +36,8 @@ maemo5 {
 }
 
 symbian {
+    DEFINES += Q_WS_SYMBIAN
+
     symbian:TARGET.UID3 = 0xE054205C
 
     # Smart Installer package's UID
