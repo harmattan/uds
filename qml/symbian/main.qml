@@ -12,6 +12,7 @@ Window {
     function updateFromCache() {
         mainCalendar.eventsChanged.connect(onEventsChanged)
         mainCalendar.updateFromCache("http://summit.ubuntu.com/uds-o.ical")
+        mainCalendar.update("http://summit.ubuntu.com/uds-o.ical")
     }
 
     MainPage { id: mainPage }
@@ -41,6 +42,6 @@ Window {
 
     Component.onCompleted: {
         pageStack.push(mainPage)
-        updateFromCache()
+        update()
     }
 }
