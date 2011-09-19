@@ -1,34 +1,26 @@
-import QtQuick 1.0
+import QtQuick 1.1
 import com.nokia.symbian 1.0
 
 Page {
-    id: mainPage
-
-    property alias model: listview.model
+    property alias column: column
+    property alias busy: busyIndicator.running
 
     anchors.fill: parent
 
-    ListView {
-        id: listview
+    Item {
         anchors.fill: parent
-        anchors.margins: 10
-        clip: true
 
-        delegate: ListItem {
-            id: item
-            Column {
-                anchors.fill: item.padding
-                ListItemText {
-                    mode: item.mode
-                    role: "Title"
-                    text: display
-                }
-                ListItemText {
-                    mode: item.mode
-                    role: "SubTitle"
-                    text: room
-                }
-            }
+        BusyIndicator {
+            id: busyIndicator
+            anchors.centerIn: parent
+            running: true
+            visible: running
+        }
+
+        Column {
+            id: column
+            anchors.centerIn: parent
+            spacing: 20
         }
     }
 }

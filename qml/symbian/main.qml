@@ -1,21 +1,47 @@
 import QtQuick 1.0
 import com.nokia.symbian 1.0
+import "../core"
+import "../core/core.js" as Core
+import "../core/fakelist.js" as FakeList
+import "../core/weekday.js" as WeekDay
 
 Window {
     id: window
 
-    function onEventsChanged() {
-        mainPage.model = mainCalendar.sessionModel
-        console.debug(mainCalendar.sessionModel)
+    property variant listPages: undefined
+
+    function initListPages() {
+        var listComponent = Qt.createComponent("ListPage.qml")
+        var buttonComponent = Qt.createComponent("DayButton.qml")
+
+        for (var i = 0; i < 7; ++i) {
+            var button = buttonComponent.createObject(mainPage.column, {"weekDay": i, "anchors.horizontalCenter": mainPage.column.horizontalCenter})
+            var page = listComponent.createObject(button, { title: WeekDay.numberToString(i)} )
+
+            page.dayOfWeek = i
+            page.model = mainCalendar.sessionModel
+
+            FakeList.addItem(page)
+            button.page = page
+
+        }
+        listPages = FakeList.getList()
     }
 
-    function updateFromCache() {
-        mainCalendar.eventsChanged.connect(onEventsChanged)
-        mainCalendar.updateFromCache("http://summit.ubuntu.com/uds-o.ical")
-        mainCalendar.update("http://summit.ubuntu.com/uds-o.ical")
+    function onMainEventsChanged() {
+        if (listPages === undefined)
+            initListPages()
+
+        mainPage.busy = false
+    }
+
+    function onUserEventsChanged() {
+        userPage.title = Qt.createComponent("../core/Settings.qml").createObject(null).value("lpuser")
     }
 
     MainPage { id: mainPage }
+
+    ListPage { id: userPage; model: userCalendar.sessionModel }
 
     StatusBar {
         id: statusBar
@@ -37,11 +63,32 @@ Window {
                 iconSource: "toolbar-back"
                 onClicked: pageStack.depth <= 1 ? Qt.quit() : pageStack.pop()
             }
+            ToolButton {
+                flat: true
+                enabled: !(pageStack.currentPage == mainPage)
+                iconSource: "toolbar-home"
+                onClicked: { pageStack.clear(); pageStack.push(mainPage) }
+            }
+            ToolButton {
+                flat: true
+                enabled: !(pageStack.currentPage == userPage)
+                text: "User"
+                onClicked: { pageStack.clear(); pageStack.push(userPage) }
+            }
+            ToolButton {
+                flat: true
+                iconSource: "toolbar-settings"
+                onClicked: Qt.createComponent("SettingsDialog.qml").createObject(pageStack.currentPage).open()
+            }
         }
     }
 
     Component.onCompleted: {
         pageStack.push(mainPage)
-        update()
+
+        mainCalendar.eventsChanged.connect(onMainEventsChanged)
+        userCalendar.eventsChanged.connect(onUserEventsChanged)
+        Core.updateFromCache()
+        Core.update()
     }
 }

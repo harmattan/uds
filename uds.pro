@@ -66,7 +66,7 @@ core_qml.source = qml/core
 core_qml.target = qml
 images_qml.source = qml/images
 images_qml.target = qml
-DEPLOYMENTFOLDERS = folder_01 folder_02 core_qml images_qml
+DEPLOYMENTFOLDERS += folder_01 folder_02 core_qml images_qml
 
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =
@@ -87,5 +87,7 @@ HEADERS += \
 # Qt Creator Deployment Helpers
 include(src/qmlapplicationviewer/qmlapplicationviewer.pri)
 qtcAddDeployment()
+
+
 
 
