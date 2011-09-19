@@ -50,6 +50,10 @@ symbian {
 
     # Add dependency to symbian components
     CONFIG += qtquickcomponents
+
+    symbian_qml.source = qml/symbian
+    symbian_qml.target = qml
+    DEPLOYMENTFOLDERS += symbian_qml
 }
 
 folder_01.source = qml/ubuntudevelopersummit
