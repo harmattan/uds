@@ -125,9 +125,8 @@ PageStackWindow {
             MenuItem { text: qsTr("Landscape"); onClicked: screen.allowedOrientations = Screen.Landscape }
             MenuItem { text: qsTr("Portrait"); onClicked: screen.allowedOrientations = Screen.Portrait }
             MenuItem {
-                property bool isAboutPage: pageStack.currentPage !== null && pageStack.currentPage.objectName === "aboutPage"
                 text: qsTr("About")
-                enabled: isAboutPage
+                enabled: pageStack.currentPage !== null && pageStack.currentPage.objectName !== "aboutPage"
                 onClicked: pageStack.push(Qt.createComponent("AboutPage.qml"))
                 onEnabledChanged: style.textColor = enabled ? "black" : "grey"
             }
