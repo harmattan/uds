@@ -22,7 +22,7 @@ Page {
                 spacing: 5
                 Image {
                     id: icon
-                    source: "icon.png"
+                    source: "../images/icon.png"
                     anchors.left: parent.left
                 }
                 Label {
@@ -47,7 +47,7 @@ Page {
         }
 
         Image {
-            source: "gplv3.png"
+            source: "../images/gplv3.png"
         }
 
         Row {

@@ -37,7 +37,7 @@ Page {
 
             width:  zoomWidth
             height: zoomHeight
-            source: "room-map.jpg"
+            source: "../images/room-map.jpg"
             fillMode: Image.PreserveAspectFit
 
 //            onPaintedWidthChanged: { console.debug("width: "+width + " | paintedWidth: "+paintedWidth); }
