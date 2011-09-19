@@ -2,8 +2,8 @@ import QtQuick 1.1
 import com.nokia.meego 1.0
 import com.nokia.extras 1.0
 import com.ubuntu.summit 1.0
-import "WeekDay.js" as WeekDay
-import "script.js" as FakeList
+import "../core/weekday.js" as WeekDay
+import "../core/fakelist.js" as FakeList
 
 PageStackWindow {
     id: appWindow

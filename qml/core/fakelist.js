@@ -1,4 +1,5 @@
-// script.js
+.pragma library
+
 var myArray = new Array()
 
 function getList() {

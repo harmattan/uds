@@ -1,6 +1,6 @@
 import QtQuick 1.0
 import com.nokia.meego 1.0
-import "WeekDay.js" as WeekDay
+import "../core/weekday.js" as WeekDay
 
 Button {
     property int weekDay: 0
