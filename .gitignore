@@ -1,1 +1,4 @@
 uds.pro.user
+android/bin
+android/libs
+android/gen
