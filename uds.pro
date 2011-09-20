@@ -6,7 +6,7 @@ TEMPLATE = app
 TARGET = uds
 QT += gui network
 
-contains(MEEGO_EDITION,harmattan) {
+contains(MEEGO_EDITION, harmattan) {                                 # Harmattan
     DEFINES += Q_WS_MAEMO_6
     DEFINES += MEEGO_EDITION_HARMATTAN
     CONFIG  += qdeclarative-boostable
@@ -18,9 +18,11 @@ contains(MEEGO_EDITION,harmattan) {
     icon.files = $${TARGET}.png
     icon.path = /usr/share/icons/hicolor/80x80/apps
     INSTALLS += icon
-}
 
-maemo5 {
+    maemo6_qml.source = qml/maemo6
+    maemo6_qml.target = qml
+    DEPLOYMENTFOLDERS += maemo6_qml
+} else:maemo5 {                                                      # Fremantle
     DEFINES += Q_WS_MAEMO_5
     SOURCES += \
         src/maemo5/Window.cpp \
@@ -32,9 +34,7 @@ maemo5 {
     maemo_5_qml.source = qml/maemo5
     maemo_5_qml.target = qml
     DEPLOYMENTFOLDERS += maemo_5_qml
-}
-
-symbian {
+} else:symbian {                                                       # Symbian
     DEFINES += Q_WS_SYMBIAN
 
     symbian:TARGET.UID3 = 0xE054205C
@@ -55,9 +55,7 @@ symbian {
     symbian_qml.source = qml/symbian
     symbian_qml.target = qml
     DEPLOYMENTFOLDERS += symbian_qml
-}
-
-!isEmpty(ANDROID) {
+} else:!isEmpty(ANDROID) {                                             # Android
     DEFINES += Q_WS_ANDROID
 
     OTHER_FILES += \
@@ -87,17 +85,17 @@ symbian {
     android_qml.source = qml/android
     android_qml.target = qml
     DEPLOYMENTFOLDERS += android_qml
+} else {                                                               # Desktop
+    desktop_qml.source = qml/desktop
+    desktop_qml.target = qml
+    DEPLOYMENTFOLDERS += desktop_qml
 }
 
-folder_01.source = qml/ubuntudevelopersummit
-folder_01.target = qml
-folder_02.source = qml/desktop
-folder_02.target = qml
 core_qml.source = qml/core
 core_qml.target = qml
 images_qml.source = qml/images
 images_qml.target = qml
-DEPLOYMENTFOLDERS += folder_01 folder_02 core_qml images_qml
+DEPLOYMENTFOLDERS += core_qml images_qml
 
 # Additional import path used to resolve QML modules in Creator's code model
 QML_IMPORT_PATH =

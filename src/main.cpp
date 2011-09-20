@@ -75,7 +75,7 @@ int main(int argc, char *argv[])
         #elif Q_WS_ANDROID
             QLatin1String("qrc:/qml/android/main.qml")
         #else
-            QLatin1String("qml/ubuntudevelopersummit/main.qml")
+            QLatin1String("qml/desktop/main.qml")
         #endif
             ;
 
