@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/qml">
+        <file>core/</file>
+        <file>android/</file>
+    </qresource>
+</RCC>

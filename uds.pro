@@ -6,7 +6,6 @@ TEMPLATE = app
 TARGET = uds
 QT += gui network
 
-#!isEmpty(MEEGO_VERSION_MAJOR) {
 contains(MEEGO_EDITION,harmattan) {
     DEFINES += Q_WS_MAEMO_6
     DEFINES += MEEGO_EDITION_HARMATTAN
@@ -58,6 +57,38 @@ symbian {
     DEPLOYMENTFOLDERS += symbian_qml
 }
 
+!isEmpty(ANDROID) {
+    DEFINES += Q_WS_ANDROID
+
+    OTHER_FILES += \
+        android/res/drawable-mdpi/icon.png \
+        android/res/values/strings.xml \
+        android/res/values/libs.xml \
+        android/res/drawable-ldpi/icon.png \
+        android/res/drawable-hdpi/icon.png \
+        android/AndroidManifest.xml \
+        android/src/eu/licentia/necessitas/ministro/IMinistro.aidl \
+        android/src/eu/licentia/necessitas/ministro/IMinistroCallback.aidl \
+        android/src/eu/licentia/necessitas/industrius/QtApplication.java \
+        android/src/eu/licentia/necessitas/industrius/QtSurface.java \
+        android/src/eu/licentia/necessitas/industrius/QtActivity.java \
+        android/src/eu/licentia/necessitas/industrius/QtLayout.java \
+        android/src/eu/licentia/necessitas/mobile/QtMediaPlayer.java \
+        android/src/eu/licentia/necessitas/mobile/QtLocation.java \
+        android/src/eu/licentia/necessitas/mobile/QtFeedback.java \
+        android/src/eu/licentia/necessitas/mobile/QtAndroidContacts.java \
+        android/src/eu/licentia/necessitas/mobile/QtSensors.java \
+        android/src/eu/licentia/necessitas/mobile/QtSystemInfo.java \
+        android/src/eu/licentia/necessitas/mobile/QtCamera.java
+
+    RESOURCES += \
+        qml/android.qrc
+
+    android_qml.source = qml/android
+    android_qml.target = qml
+    DEPLOYMENTFOLDERS += android_qml
+}
+
 folder_01.source = qml/ubuntudevelopersummit
 folder_01.target = qml
 folder_02.source = qml/desktop
@@ -87,7 +118,4 @@ HEADERS += \
 # Qt Creator Deployment Helpers
 include(src/qmlapplicationviewer/qmlapplicationviewer.pri)
 qtcAddDeployment()
-
-
-
 

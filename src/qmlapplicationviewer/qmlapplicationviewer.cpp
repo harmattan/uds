@@ -93,8 +93,12 @@ QmlApplicationViewer::~QmlApplicationViewer()
 
 void QmlApplicationViewer::setMainQmlFile(const QString &file)
 {
-    m_d->mainQmlFile = QmlApplicationViewerPrivate::adjustPath(file);
-    setSource(QUrl::fromLocalFile(m_d->mainQmlFile));
+    if (file.startsWith(QChar(':')) || file.startsWith(QLatin1String("qrc:"))) { // Qt Resource
+        setSource(QUrl(file));
+    } else {
+        m_d->mainQmlFile = QmlApplicationViewerPrivate::adjustPath(file);
+        setSource(QUrl::fromLocalFile(m_d->mainQmlFile));
+    }
 }
 
 void QmlApplicationViewer::addImportPath(const QString &path)

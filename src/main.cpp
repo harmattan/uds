@@ -72,6 +72,8 @@ int main(int argc, char *argv[])
             QLatin1String("qml/maemo5/main.qml")
         #elif Q_WS_SYMBIAN
             QLatin1String("qml/ubuntudevelopersummit/main.qml")
+        #elif Q_WS_ANDROID
+            QLatin1String("qrc:/qml/android/main.qml")
         #else
             QLatin1String("qml/ubuntudevelopersummit/main.qml")
         #endif

@@ -137,5 +137,6 @@ void RemoteManager::parsingDone(QList<QSharedPointer<QCalEvent> > events)
 inline QString RemoteManager::cacheFilePath(const QUrl &url)
 {
     const QString cacheDirPath = QDesktopServices::storageLocation(QDesktopServices::CacheLocation);
+    qDebug() << Q_FUNC_INFO << cacheDirPath % QLatin1Literal("/") %  url.path().split("/").last();
     return cacheDirPath % QLatin1Literal("/") %  url.path().split("/").last();
 }
