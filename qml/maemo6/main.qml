@@ -38,7 +38,7 @@ PageStackWindow {
     }
 
     function onUserEventsChanged() {
-        userPage.title = Qt.createComponent("Settings.qml").createObject(null).value("lpuser")
+        userPage.title = Core.settings().value("lpuser")
     }
 
     showToolBar: true
@@ -83,7 +83,7 @@ PageStackWindow {
 
         ToolIcon {
             platformIconId: "icon-m-toolbar-refresh"
-            onClicked: update()
+            onClicked: Core.update()
         }
         ToolIcon {
             platformIconId: "toolbar-view-menu"

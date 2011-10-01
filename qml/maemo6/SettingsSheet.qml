@@ -28,12 +28,10 @@ Sheet {
                 height: implicitHeight
                 inputMethodHints: Qt.ImhPreferLowercase
 
-                Component.onCompleted: text = Qt.createComponent("Settings.qml").createObject(null).value("lpuser")
+                Component.onCompleted: text = Core.settings().value("lpuser")
             }
         }
     }
 
-    onAccepted: {
-        Qt.createComponent("Settings.qml").createObject(null).setValue("lpuser", lpusername.text)
-    }
+    onAccepted: Core.settings().setValue("lpuser", lpusername.text)
 }
