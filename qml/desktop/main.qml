@@ -1,5 +1,4 @@
 import QtQuick 1.0
-import "../ubuntudevelopersummit"
 
 Rectangle {
     function onItemsChanged(manager) {
@@ -19,10 +18,6 @@ Rectangle {
         delegate:
             Row {
             spacing: 10
-            LabelRow { lbl: "Summary"; txt: model.modelData.summary }
-            LabelRow { lbl: "Start"; txt: model.modelData.start }
-            LabelRow { lbl: "End"; txt: model.modelData.end }
-            LabelRow { lbl: "Room"; txt: model.modelData.x_roomname }
         }
 
         onModelChanged: {
