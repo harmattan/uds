@@ -54,7 +54,7 @@ Page {
             font.pixelSize: 28
             font.family: "Nokia Pure Text Bold"
             color: "white"
-            text: "Ubuntu Developer Summit"
+            text: qsTr("Ubuntu Developer Summit")
         }
     }
 
