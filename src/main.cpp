@@ -67,7 +67,7 @@ int main(int argc, char *argv[])
 
     QString source =
         #ifdef Q_WS_MAEMO_6
-            MDeclarativeCache::applicationDirPath() % QLatin1Literal("/../qml/ubuntudevelopersummit/main.qml")
+            MDeclarativeCache::applicationDirPath() % QLatin1Literal("/../qml/maemo6/main.qml")
         #elif Q_WS_MAEMO_5
             QLatin1String("qml/maemo5/main.qml")
         #elif Q_WS_SYMBIAN
