@@ -24,7 +24,7 @@ Sheet {
                 id: lpusername
                 anchors { left: parent.left; right: parent.right; }
                 height: implicitHeight
-                inputMethodHints: Qt.ImhPreferLowercase
+                inputMethodHints: Qt.ImhNoAutoUppercase
 
                 Component.onCompleted: text = Core.settings().value("lpuser")
             }
