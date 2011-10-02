@@ -7,6 +7,7 @@ TARGET = uds
 QT += gui network
 
 contains(MEEGO_EDITION, harmattan) {                                 # Harmattan
+    message("Building for Harmattan")
     DEFINES += Q_WS_HARMATTAN
     DEFINES += MEEGO_EDITION_HARMATTAN
     CONFIG  += qdeclarative-boostable
@@ -23,6 +24,7 @@ contains(MEEGO_EDITION, harmattan) {                                 # Harmattan
     harmattan_qml.target = qml
     DEPLOYMENTFOLDERS += harmattan_qml
 } else:maemo5 {                                                      # Fremantle
+    message("Building for Maemo 5")
     DEFINES += Q_WS_MAEMO_5
     SOURCES += \
         src/maemo5/Window.cpp \
@@ -34,7 +36,8 @@ contains(MEEGO_EDITION, harmattan) {                                 # Harmattan
     maemo_5_qml.source = qml/maemo5
     maemo_5_qml.target = qml
     DEPLOYMENTFOLDERS += maemo_5_qml
-} else:symbian {                                                       # Symbian
+} else:symbian|!isEmpty(SYMBIAN) {                                     # Symbian
+    message("Building for Symbian")
     DEFINES += Q_WS_SYMBIAN
 
     symbian:TARGET.UID3 = 0xE054205C
@@ -56,6 +59,7 @@ contains(MEEGO_EDITION, harmattan) {                                 # Harmattan
     symbian_qml.target = qml
     DEPLOYMENTFOLDERS += symbian_qml
 } else:!isEmpty(ANDROID) {                                             # Android
+    message("Building for Android")
     DEFINES += Q_WS_ANDROID
 
     OTHER_FILES += \
@@ -86,6 +90,7 @@ contains(MEEGO_EDITION, harmattan) {                                 # Harmattan
     android_qml.target = qml
     DEPLOYMENTFOLDERS += android_qml
 } else {                                                               # Desktop
+    message("Building for Desktop")
     desktop_qml.source = qml/desktop
     desktop_qml.target = qml
     DEPLOYMENTFOLDERS += desktop_qml
