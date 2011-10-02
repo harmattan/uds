@@ -10,7 +10,7 @@
 
 #include "qcalevent.h"
 
-#ifdef Q_WS_MAEMO_6
+#ifdef Q_WS_HARMATTAN
 #include <applauncherd/MDeclarativeCache>
 #elif Q_WS_MAEMO_5
 #include <maemo5/DeclarativeShell.h>
@@ -26,7 +26,7 @@
 
 int main(int argc, char *argv[])
 {
-#ifdef Q_WS_MAEMO_6
+#ifdef Q_WS_HARMATTAN
     // Cannot use the qmlapplicationviewer overload for create() as that will
     // lead to view's rootcontext not being the actual execution context which
     // in turn breaks the manager injection (then again the injection should
@@ -70,8 +70,8 @@ int main(int argc, char *argv[])
     rootContext->setContextProperty("userCalendar", &userCalendar);
 
     QString source =
-        #ifdef Q_WS_MAEMO_6
-            MDeclarativeCache::applicationDirPath() % QLatin1Literal("/../qml/maemo6/main.qml")
+        #ifdef Q_WS_HARMATTAN
+            MDeclarativeCache::applicationDirPath() % QLatin1Literal("/../qml/harmattan/main.qml")
         #elif Q_WS_MAEMO_5
             QLatin1String("qml/maemo5/main.qml")
         #elif Q_WS_SYMBIAN
@@ -83,13 +83,13 @@ int main(int argc, char *argv[])
         #endif
             ;
 
-#ifdef Q_WS_MAEMO_6
+#ifdef Q_WS_HARMATTAN
     view->setSource(source);
     view->showFullScreen();
 #else
     view->setMainQmlFile(source);
     view->showExpanded();
-#endif // Q_WS_MAEMO_6
+#endif
 
     return app->exec();
 }

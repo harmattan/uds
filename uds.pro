@@ -7,7 +7,7 @@ TARGET = uds
 QT += gui network
 
 contains(MEEGO_EDITION, harmattan) {                                 # Harmattan
-    DEFINES += Q_WS_MAEMO_6
+    DEFINES += Q_WS_HARMATTAN
     DEFINES += MEEGO_EDITION_HARMATTAN
     CONFIG  += qdeclarative-boostable
 
@@ -19,9 +19,9 @@ contains(MEEGO_EDITION, harmattan) {                                 # Harmattan
     icon.path = /usr/share/icons/hicolor/80x80/apps
     INSTALLS += icon
 
-    maemo6_qml.source = qml/maemo6
-    maemo6_qml.target = qml
-    DEPLOYMENTFOLDERS += maemo6_qml
+    harmattan_qml.source = qml/harmattan
+    harmattan_qml.target = qml
+    DEPLOYMENTFOLDERS += harmattan_qml
 } else:maemo5 {                                                      # Fremantle
     DEFINES += Q_WS_MAEMO_5
     SOURCES += \
