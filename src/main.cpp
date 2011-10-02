@@ -27,6 +27,10 @@
 int main(int argc, char *argv[])
 {
 #ifdef Q_WS_MAEMO_6
+    // Cannot use the qmlapplicationviewer overload for create() as that will
+    // lead to view's rootcontext not being the actual execution context which
+    // in turn breaks the manager injection (then again the injection should
+    // be replaced with qml element usage as the managers are qobjects anyway).
     QScopedPointer<QApplication> app(MDeclarativeCache::qApplication(argc, argv));
     QScopedPointer<QDeclarativeView> view(MDeclarativeCache::qDeclarativeView());
     QObject::connect(view->engine(), SIGNAL(quit()), view.data(), SLOT(close()));
