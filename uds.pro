@@ -116,4 +116,3 @@ HEADERS += \
 # Qt Creator Deployment Helpers
 include(src/qmlapplicationviewer/qmlapplicationviewer.pri)
 qtcAddDeployment()
-
