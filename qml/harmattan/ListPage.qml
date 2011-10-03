@@ -50,8 +50,6 @@ Page {
                 }
             }
         }
-
-        SectionScroller { listView: listview }
         ScrollDecorator { flickableItem: listview }
     }
 
