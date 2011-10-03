@@ -61,9 +61,7 @@ class RemoteManager : public QObject
     Q_OBJECT
     Q_PROPERTY(SessionModel *sessionModel READ sessionModel NOTIFY sessionModelChanged)
 public:
-    explicit RemoteManager(const QString &modelName,
-                           QDeclarativeContext *rootContext,
-                           QObject *parent = 0);
+    explicit RemoteManager(QObject *parent = 0);
     ~RemoteManager();
 
     static QString cacheFilePath(const QUrl &url);
@@ -83,11 +81,9 @@ private slots:
     void parsingDone(QList<QSharedPointer<QCalEvent> > events);
 
 private:
-    QDeclarativeContext *m_rootContext;
     QList<EventList> m_list;
 
     SessionModel *m_sessionModel;
-
 };
 
 #endif // REMOTEMANAGER_H

@@ -54,8 +54,8 @@ int main(int argc, char *argv[])
     qmlRegisterType<RemoteManager>();
     qmlRegisterType<SessionModel>();
 
-    qmlRegisterType<FilterProxyModel>("com.ubuntu.summit", 1, 0, "FilterProxyModel");
     qmlRegisterType<DesktopServices>("com.ubuntu.summit", 1, 0, "DesktopServices");
+    qmlRegisterType<FilterProxyModel>("com.ubuntu.summit", 1, 0, "FilterProxyModel");
     qmlRegisterType<Settings>("com.ubuntu.summit", 1, 0, "Settings");
 #ifdef Q_WS_MAEMO_5
     qmlRegisterType<StackedWindow>("com.ubuntu.summit.maemo", 5, 0, "StackedWindow");
@@ -64,8 +64,8 @@ int main(int argc, char *argv[])
 #endif
 
     QDeclarativeContext *rootContext = view->rootContext();
-    RemoteManager mainCalendar(QLatin1String("mainCalendar"), rootContext);
-    RemoteManager userCalendar(QLatin1String("userCalendar"), rootContext);
+    RemoteManager mainCalendar;
+    RemoteManager userCalendar;
     rootContext->setContextProperty("mainCalendar", &mainCalendar);
     rootContext->setContextProperty("userCalendar", &userCalendar);
 

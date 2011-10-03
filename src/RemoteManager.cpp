@@ -1,6 +1,5 @@
 #include "RemoteManager.h"
 
-#include <QtCore/QDateTime>
 #include <QtCore/QDebug>
 #include <QtCore/QDir>
 #include <QtCore/QEventLoop>
@@ -8,7 +7,6 @@
 #include <QtCore/QStringBuilder>
 #include <QtCore/QStringList>
 #include <QtCore/QThreadPool>
-#include <QtDeclarative/QDeclarativeContext>
 #include <QtGui/QDesktopServices>
 #include <QtNetwork/QNetworkAccessManager>
 #include <QtNetwork/QNetworkReply>
@@ -90,11 +88,8 @@ void NetworkParserRunnable::parseReply(QNetworkReply *reply)
 
 // --------------------------------- Manager -------------------------------- //
 
-RemoteManager::RemoteManager(const QString &modelName,
-                             QDeclarativeContext *rootContext,
-                             QObject *parent) :
+RemoteManager::RemoteManager(QObject *parent) :
     QObject(parent),
-    m_rootContext(rootContext),
     m_sessionModel(new SessionModel(this))
 {
     qRegisterMetaType<QList<QSharedPointer<QCalEvent> > >("QList<QSharedPointer<QCalEvent> >");

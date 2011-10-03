@@ -59,21 +59,22 @@ Window {
         tools: ToolBarLayout {
             id: toolBarLayout
             ToolButton {
-                flat: true
                 iconSource: "toolbar-back"
                 onClicked: pageStack.depth <= 1 ? Qt.quit() : pageStack.pop()
             }
             ToolButton {
-                flat: true
                 enabled: !(pageStack.currentPage == mainPage)
                 iconSource: "toolbar-home"
                 onClicked: { pageStack.clear(); pageStack.push(mainPage) }
             }
             ToolButton {
-                flat: true
                 enabled: !(pageStack.currentPage == userPage)
-                text: "User"
+                iconSource: "toolbar-share"
                 onClicked: { pageStack.clear(); pageStack.push(userPage) }
+            }
+            ToolButton {
+                iconSource: "toolbar-refresh"
+                onClicked: Core.update()
             }
             ToolButton {
                 flat: true
