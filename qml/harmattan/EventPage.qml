@@ -30,7 +30,7 @@ Page {
             id: container
 
             height: column.height + map.height
-            width: column.width + map.width
+            width: Math.max(column.width, map.width)
 
             Column {
                 id: column
