@@ -32,18 +32,30 @@ function update() {
 
 // -------------------------------- PRIVATE --------------------------------- //
 
+var __id = 'uds-o'
+
+function __ical() {
+    return 'http://summit.ubuntu.com/' + __id + '.ical'
+}
+
+function __icalParticipant(participant) {
+    return 'http://summit.ubuntu.com/' + __id + '/participant/' + participant + '.ical'
+}
+
 function __updateInternal(fromCache)
 {
+    var url = __ical()
     if (fromCache)
-        mainCalendar.updateFromCache("http://summit.ubuntu.com/uds-o.ical")
+        mainCalendar.updateFromCache(url)
     else
-        mainCalendar.update("http://summit.ubuntu.com/uds-o.ical")
+        mainCalendar.update(url)
 
     var username = Qt.createComponent("../core/Settings.qml").createObject(null).value("lpuser")
     if (username) {
+        url = __icalParticipant(username)
         if (fromCache)
-            userCalendar.updateFromCache("http://summit.ubuntu.com/uds-o/participant/" + username + ".ical")
+            userCalendar.updateFromCache(url)
         else
-            userCalendar.update("http://summit.ubuntu.com/uds-o/participant/" + username + ".ical")
+            userCalendar.update(url)
     }
 }
