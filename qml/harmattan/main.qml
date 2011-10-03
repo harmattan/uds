@@ -11,32 +11,16 @@ PageStackWindow {
 
     property bool initialized: false
 
-    function initListPages() {
-//        var listComponent = Qt.createComponent("ListPage.qml")
-//        var buttonComponent = Qt.createComponent("DayButton.qml")
-
+    function init() {
         for (var i = 0; i < 7; ++i) {
             mainPage.model.append({"dayOfWeek": i})
         }
         initialized = true
-
-//        for (var i = 0; i < 7; ++i) {
-////            var button = buttonComponent.createObject(mainPage.column, {"weekDay": i})
-//            var page = listComponent.createObject(button, { title: WeekDay.numberToString(i)} )
-
-//            page.dayOfWeek = i
-//            page.model = mainCalendar.sessionModel
-
-//            FakeList.addItem(page)
-//            button.page = page
-
-//        }
-//        listPages = FakeList.getList()
     }
 
     function onMainEventsChanged() {
         if (!initialized)
-            initListPages()
+            init()
 
         mainPage.busy = false
     }
@@ -72,7 +56,7 @@ PageStackWindow {
             onClicked: { pageStack.clear(); pageStack.push(initialPage) }
         }
         ToolIcon {
-            enabled: !(pageStack.currentPage == userPage) && userPage.itemCount > 0
+//            enabled: !(pageStack.currentPage == userPage) && userPage.itemCount > 0
             platformIconId: enabled ? "icon-m-toolbar-contact" : "icon-m-toolbar-contact-dimmed"
             onClicked: { pageStack.clear(); pageStack.push(userPage) }
         }

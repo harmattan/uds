@@ -7,7 +7,7 @@ import "../core/weekday.js" as WeekDay
 import "."
 
 Page {
-    property int dayOfWeek
+    property int dayOfWeek: -1
     property alias model: filtermodel.sourceModel
 
     anchors.fill: parent
