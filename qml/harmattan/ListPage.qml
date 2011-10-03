@@ -3,13 +3,12 @@ import com.nokia.meego 1.0
 import com.nokia.extras 1.0
 import com.ubuntu.summit 1.0
 import "constants.js" as UI
+import "../core/weekday.js" as WeekDay
 import "."
 
 Page {
-    property alias title: titleText.text
-    property alias dayOfWeek: filtermodel.dateFilter
+    property int dayOfWeek
     property alias model: filtermodel.sourceModel
-    property alias itemCount: listview.count
 
     anchors.fill: parent
     tools: commonTools
@@ -25,6 +24,7 @@ Page {
 
         Text {
             id: titleText
+            text: WeekDay.numberToString(dayOfWeek)
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
             anchors.leftMargin: 20
@@ -34,43 +34,48 @@ Page {
         }
     }
 
-    ListView {
-        id: listview
+    Item {
         anchors.top: title.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
         anchors.bottom: parent.bottom
-        width: parent.width
-        anchors.margins: 10
-        clip: true
 
-        model: FilterProxyModel { id: filtermodel }
+        ListView {
+            id: listview
+            anchors.fill: parent
+            anchors.margins: 10
+            clip: true
 
-        delegate: ListDelegate {
-            title: display
-            subtitle: room
+            model: FilterProxyModel { id: filtermodel; dateFilter: dayOfWeek }
 
-            Image {
-                source: "image://theme/icon-m-common-drilldown-arrow" + (theme.inverted ? "-inverse" : "")
-                anchors.right: parent.right;
-                anchors.verticalCenter: parent.verticalCenter
-            }
+            delegate: ListDelegate {
+                title: display
+                subtitle: room
 
-            onClicked: {
-                console.debug(listview.model)
-                var eventPageComponent = Qt.createComponent("EventPage.qml")
-                var eventPage = eventPageComponent.createObject(listview)
-                eventPage.summary = model.summary
-                eventPage.dtstart = model.startDateTime
-                eventPage.dtend = model.endDateTime
-                eventPage.location = model.location
-                eventPage.description = model.description
-                eventPage.track = model.track
-                eventPage.room = model.room
+                Image {
+                    source: "image://theme/icon-m-common-drilldown-arrow" + (theme.inverted ? "-inverse" : "")
+                    anchors.right: parent.right;
+                    anchors.verticalCenter: parent.verticalCenter
+                }
 
-                appWindow.pageStack.push(eventPage)
+                onClicked: {
+                    appWindow.pageStack.push(Qt.resolvedUrl("EventPage.qml"),
+                                             {
+                                                 summary: model.summary,
+                                                 dtstart: model.startDateTime,
+                                                 dtend: model.endDateTime,
+                                                 location: model.location,
+                                                 description: model.description,
+                                                 track: model.track,
+                                                 room: model.room
+                                             })
+                }
             }
         }
+
+        SectionScroller { listView: listview }
+        ScrollDecorator { flickableItem: listview }
     }
 
-    SectionScroller { listView: listview }
-    ScrollDecorator { flickableItem: listview }
+    Component.onDestruction: console.debug("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 }

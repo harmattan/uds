@@ -31,5 +31,6 @@ Sheet {
         }
     }
 
-    onAccepted: Core.settings().setValue("lpuser", lpusername.text)
+    onAccepted: { Core.settings().setValue("lpuser", lpusername.text); destroy() }
+    onRejected: destroy();
 }

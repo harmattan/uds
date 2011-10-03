@@ -1,9 +1,12 @@
 import QtQuick 1.1
 import com.nokia.meego 1.0
+import "../core/weekday.js" as WeekDay
 
 Page {
-    property alias column: column
+    id: page
+
     property alias busy: busyIndicator.running
+    property alias model: listview.model
 
     anchors.fill: parent
     tools: commonTools
@@ -13,6 +16,7 @@ Page {
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
+
         BusyIndicator {
             id: busyIndicator
             anchors.centerIn: parent
@@ -21,20 +25,34 @@ Page {
             visible: running
         }
 
-//        ScrollDecorator { flickableItem: buttons }
+        ListView {
+            id: listview
 
-//        Flickable {
-//            id: buttons
-//            anchors.fill: parent
-//            contentWidth: column.width
-//            contentHeight: column.height
-//            clip: true
-            Column {
-                id: column
-                anchors.centerIn: parent
-                spacing: 20
+            /** @returns name of day with first character having bigger font size */
+            function formattedTitle(dayOfWeek, baseSize) {
+                var name = WeekDay.numberToString(dayOfWeek)
+                var firstChar = name.charAt(0)
+                var rest = name.substr(1)
+                return '<font size="' + baseSize * 1.5 + '">' + firstChar + '</font>' + rest
             }
-//        }
+
+            model: ListModel {}
+            anchors.fill: parent
+            anchors.margins: 10
+            clip: true
+
+            delegate: ListDelegate {
+                title: listview.formattedTitle(dayOfWeek, titleSize)
+                onClicked: pageStack.push(Qt.resolvedUrl("ListPage.qml"),
+                                          { dayOfWeek: dayOfWeek, model: mainCalendar.sessionModel })
+
+                Image {
+                    source: "image://theme/icon-m-common-drilldown-arrow" + (theme.inverted ? "-inverse" : "")
+                    anchors.right: parent.right;
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+            }
+        }
     }
 
     Rectangle {

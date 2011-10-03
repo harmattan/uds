@@ -2,7 +2,6 @@ import QtQuick 1.1
 import com.nokia.meego 1.0
 import com.nokia.extras 1.0
 import com.ubuntu.summit 1.0
-import "../core"
 import "../core/core.js" as Core
 import "../core/fakelist.js" as FakeList
 import "../core/weekday.js" as WeekDay
@@ -10,28 +9,33 @@ import "../core/weekday.js" as WeekDay
 PageStackWindow {
     id: appWindow
 
-    property variant listPages: undefined
+    property bool initialized: false
 
     function initListPages() {
-        var listComponent = Qt.createComponent("ListPage.qml")
-        var buttonComponent = Qt.createComponent("DayButton.qml")
+//        var listComponent = Qt.createComponent("ListPage.qml")
+//        var buttonComponent = Qt.createComponent("DayButton.qml")
 
         for (var i = 0; i < 7; ++i) {
-            var button = buttonComponent.createObject(mainPage.column, {"weekDay": i})
-            var page = listComponent.createObject(button, { title: WeekDay.numberToString(i)} )
-
-            page.dayOfWeek = i
-            page.model = mainCalendar.sessionModel
-
-            FakeList.addItem(page)
-            button.page = page
-
+            mainPage.model.append({"dayOfWeek": i})
         }
-        listPages = FakeList.getList()
+        initialized = true
+
+//        for (var i = 0; i < 7; ++i) {
+////            var button = buttonComponent.createObject(mainPage.column, {"weekDay": i})
+//            var page = listComponent.createObject(button, { title: WeekDay.numberToString(i)} )
+
+//            page.dayOfWeek = i
+//            page.model = mainCalendar.sessionModel
+
+//            FakeList.addItem(page)
+//            button.page = page
+
+//        }
+//        listPages = FakeList.getList()
     }
 
     function onMainEventsChanged() {
-        if (listPages === undefined)
+        if (!initialized)
             initListPages()
 
         mainPage.busy = false
@@ -74,7 +78,7 @@ PageStackWindow {
         }
         ToolIcon {
             platformIconId: "icon-m-toolbar-search"
-            onClicked: { pageStack.clear(); pageStack.push(Qt.createComponent("MapPage.qml")) }
+            onClicked: { pageStack.clear(); pageStack.push(Qt.resolvedUrl("MapPage.qml")) }
         }
         ToolIcon {
             platformIconId: "icon-m-toolbar-settings"
@@ -101,7 +105,7 @@ PageStackWindow {
             MenuItem {
                 text: qsTr("About")
                 enabled: pageStack.currentPage !== null && pageStack.currentPage.objectName !== "aboutPage"
-                onClicked: pageStack.push(Qt.createComponent("AboutPage.qml"))
+                onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
                 onEnabledChanged: style.textColor = enabled ? "black" : "grey"
             }
         }

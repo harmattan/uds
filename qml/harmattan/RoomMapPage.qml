@@ -4,81 +4,205 @@ import com.nokia.meego 1.0
 Page {
     id: page
 
+    property double currentWidth;
+    property double currentHeight;
+
+    property double originalWidth;
+    property double originalHeight;
+
+    property bool imageHandled: false;
+    property bool imageFlicked: false;
+
+    property bool resizeToFit;
+
+    //property list<string> images;
+
+    property int listID;
+    property int currentID;
+
+    property int totalImages;
+
+    ///////////
+
+    property alias currentImage: map
+
+    ///////////////////////////////
+
     anchors.fill: parent
     tools: commonTools
-
-//    ScrollDecorator { flickableItem: flickable }
 
     Flickable {
         id: flickable
 
-        clip: true
-        boundsBehavior: Flickable.DragOverBounds
         anchors.fill: parent
-        contentHeight: map.width; contentWidth: map.height;
 
-//        onWidthChanged: { console.debug("width: "+width)  }
-//        onHeightChanged: { console.debug("height: "+height) }
+        contentWidth: map.width * map.scale
+        contentHeight: map.height * map.scale
 
-//        onContentHeightChanged: console.log("ch "+contentHeight)
-//        onContentWidthChanged: console.log("cw "+contentWidth)
+        onFlickStarted: flicked()
+
+        onHeightChanged: adjustImage()
+        onWidthChanged: adjustImage()
 
         Image {
             id: map
 
-            property real zoom: 1
-            property real zoomWidth: page.width * zoom
-            property real zoomHeight: page.height * zoom
-
-            onPaintedGeometryChanged: {
-                console.debug(paintedWidth)
-                console.debug(paintedHeight)
-            }
-
-            width:  zoomWidth
-            height: zoomHeight
-            source: "../images/room-map.jpg"
             fillMode: Image.PreserveAspectFit
-
-//            onPaintedWidthChanged: { console.debug("width: "+width + " | paintedWidth: "+paintedWidth); }
-//            onPaintedHeightChanged: { console.debug("height: "+height + " | paintedHeight: " +paintedHeight) }
-//            onWidthChanged: { console.debug("width: "+width + " | paintedWidth: "+paintedWidth); }
-//            onHeightChanged: { console.debug("height: "+height + " | paintedHeight: " +paintedHeight) }
-
-//            Image {
-//                id: pin
-//                source: "image://theme/icon-m-common-location-selected"
-//                x: 745
-//                y: 391
-//            }
+            scale: 1
+            smooth: true
+            source: "../images/room-map.jpg"
+            transformOrigin: Item.TopLeft
         }
 
-        PinchArea {
-            property real __oldZoom
-
-            anchors.fill: parent
-            pinch.maximumScale: 10
-            pinch.minimumScale: 1
-
-            function calcZoomDelta(zoom, percent) {
-                var z = zoom + Math.log(percent)/Math.log(2)
-                return z < 1.0 ? 1.0 : z
+        MouseArea {
+            id: areaZoomDown
+            x: 0 + flickable.contentX
+            y: page.height - 80 + flickable.contentY
+            width: 80
+            height: 80
+            onClicked: zoomDown();
+            Image {
+                id: zoomDownIcon
+                source: "image://theme/icon-m-common-remove"
+                anchors.centerIn: parent
             }
+        }
 
-            onPinchStarted: {
-                __oldZoom = map.zoom
+        MouseArea {
+            id: areaZoomUp
+            x: page.width - 80 + flickable.contentX
+            y: page.height - 80 + flickable.contentY
+            width: 80
+            height: 80
+            onClicked: zoomUp();
+            Image {
+                id: zoomUpIcon
+                source: "image://theme/icon-m-common-add"
+                anchors.centerIn: parent
             }
+        }
+    }
 
-            onPinchUpdated: {
-                console.debug(pinch.scale)
-                map.zoom = calcZoomDelta(__oldZoom, pinch.scale)
-            }
+    function flicked() {
+        imageHandled = true;
+        imageFlicked = true;
+    }
 
-            onPinchFinished: {
-                console.debug(pinch.scale)
-                map.zoom = calcZoomDelta(__oldZoom, pinch.scale)
-                flickable.returnToBounds()
+    function adjustImage() {
+        if (imageHandled == false && resizeToFit == true) fitToScreen();
+    }
+
+    function zoomUp() {
+        imageHandled = true;
+        var flickX = flickable.contentX;
+        var flickY = flickable.contentY;
+        currentImage.scale += 0.1;
+        if (currentImage.scale >= 1.5) currentImage.scale = 1.5;
+        if (currentImage.scale != 1.5 && imageFlicked === true) {
+            flickable.contentX = 1.1 * flickX;
+            flickable.contentY = 1.1 * flickY;
+        }
+        else if (imageFlicked == false) {
+            if (currentImage.width > page.width || currentImage.height > page.height) {
+                if (currentImage.width > page.width) flickable.contentX = (originalWidth * currentImage.scale) / 2 - page.width / 2;
+                if (currentImage.height > page.height) flickable.contentY = (originalHeight * currentImage.scale) / 2 - page.height / 2;
             }
+        }
+        if (currentImage.width <= page.width) flickable.contentX = 0;
+        if (currentImage.height <= page.height) flickable.contentY = 0;
+
+        resize();
+    }
+
+    function zoomDown() {
+        imageHandled = true;
+        var flickX = flickable.contentX;
+        var flickY = flickable.contentY;
+        currentImage.scale -= 0.1;
+        if (currentImage.scale <= 0.1) currentImage.scale = 0.1;
+        if (currentImage.scale != 0.1 && imageFlicked == true) {
+            flickable.contentX = 0.9 * flickX;
+            flickable.contentY = 0.9 * flickY;
+        }
+        else if (imageFlicked == false) {
+            if ((originalWidth * currentImage.scale) > page.width || (originalHeight * currentImage.scale) > page.height) {
+                if ((originalWidth * currentImage.scale) > page.width) flickable.contentX = (originalWidth * currentImage.scale) / 2 - page.width / 2;
+                if ((originalHeight * currentImage.scale) > page.height) flickable.contentY = (originalHeight * currentImage.scale) / 2 - page.height / 2;
+            }
+        }
+        if (originalWidth * currentImage.scale <= page.width) flickable.contentX = 0;
+        if (originalHeight * currentImage.scale <= page.height) flickable.contentY = 0;
+
+        resize();
+    }
+
+    function centerOnZoom() {
+        var contentX = flickable.contentX;
+        var contentY = flickable.contentY;
+        if (currentImage.scale > 1.0) {
+            if (currentImage.width > flickable.width) flickable.contentX = contentX + (originalWidth - originalWidth * currentImage.scale) / 2;
+            if (currentImage.height > flickable.height) flickable.contentY = contentY + (originalHeight - originalHeight * currentImage.scale) / 2;
+        }
+        else if (currentImage.scale < 1.0) {
+            if (currentImage.width > flickable.width) flickable.contentX = contentX - (originalWidth - originalWidth * currentImage.scale) / 2;
+            if (currentImage.height > flickable.height) flickable.contentY = contentY - (originalHeight - originalHeight * currentImage.scale) / 2;
+        }
+    }
+
+    function showImage(string, id) {
+        imageHandled = false;
+        imageFlicked = false;
+        currentID = id;
+        base.getImageID(string);
+        setTotalText();
+        currentImage.scale = 1;
+        currentImage.source = string;
+        resize();
+    }
+
+    function fitToScreen() {
+        var resizeScale;
+
+        currentImage.scale = Math.min( page.width/currentImage.width, page.height/currentImage.height);
+        resize();
+        centerInResized();
+    }
+
+    function centerInResized() {
+        flickable.contentX = 0;
+        flickable.contentY = 0;
+    }
+
+    function centerIn() {
+        if (currentImage.width >= flickable.width) {
+            flickable.contentX = currentImage.width / 2 - flickable.width / 2;
+        }
+        if (currentImage.height >= flickable.height) {
+            flickable.contentY = currentImage.height / 2 - flickable.height / 2;
+        }
+    }
+
+    function resize() {
+//        flickable.resizeContent()
+        flickable.returnToBounds()
+        if (currentImage.status == Image.Ready) {
+            currentImage.x = 0;
+            currentImage.y = 0;
+
+            currentWidth = currentImage.width * currentImage.scale;
+            currentHeight = currentImage.height * currentImage.scale;
+
+            if (scale != 1) return;
+
+            if (currentWidth < page.width) {
+                currentImage.x = page.x + page.width - (page.width / 2) - currentWidth / 2;
+            }
+            if (currentHeight < page.height) {
+                currentImage.y = page.y + page.height - (page.height / 2) - currentHeight / 2;
+            }
+        }
+        else {
+            return;
         }
     }
 }

@@ -22,7 +22,7 @@ Page {
 
         anchors.topMargin: title.height + 10
         anchors.fill: parent
-        anchors.margins: 20
+        anchors.margins: 10
         clip: true
         contentWidth: container.width; contentHeight: container.height
 
@@ -55,7 +55,7 @@ Page {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        pageStack.push(Qt.createComponent("RoomMapPage.qml"))
+                        pageStack.push(Qt.resolvedUrl("RoomMapPage.qml"))
                     }
                 }
             }
