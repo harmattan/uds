@@ -46,8 +46,8 @@ Page {
                 onClicked: pageStack.push(Qt.resolvedUrl("ListPage.qml"),
                                           { dayOfWeek: dayOfWeek, model: mainCalendar.sessionModel })
 
-                Image {
-                    source: "image://theme/icon-m-common-drilldown-arrow" + (theme.inverted ? "-inverse" : "")
+                ToolIcon {
+                    platformIconId: "common-drilldown-arrow".concat(theme.inverted ? "-inverse" : "")
                     anchors.right: parent.right;
                     anchors.verticalCenter: parent.verticalCenter
                 }
@@ -55,5 +55,5 @@ Page {
         }
     }
 
-    PageHeader { title: qsTr("Ubuntu Developer Summit") }
+    PageHeader { id: title; title: qsTr("Ubuntu Developer Summit") }
 }

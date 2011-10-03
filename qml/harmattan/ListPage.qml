@@ -30,13 +30,6 @@ Page {
             delegate: ListDelegate {
                 title: display
                 subtitle: room
-
-                Image {
-                    source: "image://theme/icon-m-common-drilldown-arrow" + (theme.inverted ? "-inverse" : "")
-                    anchors.right: parent.right;
-                    anchors.verticalCenter: parent.verticalCenter
-                }
-
                 onClicked: {
                     appWindow.pageStack.push(Qt.resolvedUrl("EventPage.qml"),
                                              {
@@ -49,6 +42,12 @@ Page {
                                                  room: model.room
                                              })
                 }
+
+                ToolIcon {
+                    platformIconId: "common-drilldown-arrow".concat(theme.inverted ? "-inverse" : "")
+                    anchors.right: parent.right;
+                    anchors.verticalCenter: parent.verticalCenter
+                }
             }
         }
 
@@ -56,5 +55,5 @@ Page {
         ScrollDecorator { flickableItem: listview }
     }
 
-    PageHeader { title: WeekDay.numberToString(dayOfWeek) }
+    PageHeader { id: title; title: WeekDay.numberToString(dayOfWeek) }
 }

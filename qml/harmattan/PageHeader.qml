@@ -1,10 +1,11 @@
 import QtQuick 1.0
+import "constants.js" as UI
 
 Rectangle {
     id: title
 
     property alias title: titleText.text
-    property alias backgroundColor: color
+    property alias backgroundColor: title.color
 
     height: 72
     anchors.top: parent.top
@@ -15,7 +16,6 @@ Rectangle {
 
     Text {
         id: titleText
-        text: WeekDay.numberToString(dayOfWeek)
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
         anchors.leftMargin: 20
