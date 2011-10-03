@@ -23,7 +23,7 @@ import "constants.js" as UI
 Page {
     id: page
 
-    property alias summary: titleText.text
+    property alias summary: header.title
     property alias dtstart: dtstart.value
     property alias dtend: dtend.value
     property alias location: location.value
@@ -37,7 +37,7 @@ Page {
     Flickable {
         id: flickable
 
-        anchors.topMargin: title.height + 10
+        anchors.topMargin: header.height + 10
         anchors.fill: parent
         anchors.margins: 10
         clip: true
@@ -81,33 +81,12 @@ Page {
 
     ScrollDecorator { flickableItem: flickable }
 
-    Rectangle {
-        id: title
-        height: 72
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-        //        color: "#0886CE"
-        color: "#E3683D"
-
-        Label {
-            id: titleText
-            anchors.verticalCenter: parent.verticalCenter
-            verticalAlignment: Text.AlignVCenter
-            anchors.left: parent.left
-            anchors.leftMargin: 20
-            anchors.right: ratingContainer.left
-            font.pixelSize: 28
-            font.family: UI.FONT_FAMILY_BOLD
-            elide: Text.ElideRight
-            color: "white"
-            height: parent.height
-        }
-
+    PageHeader {
+        id: header
         Item {
             id: ratingContainer
             anchors.right: parent.right
-            anchors.verticalCenter: titleText.verticalCenter
+            anchors.verticalCenter: parent.verticalCenter
             width: rater.width + 32*2 // 32 is margin on each side
             height: parent.height
             RatingIndicator {
