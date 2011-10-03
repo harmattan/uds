@@ -26,12 +26,13 @@ import "."
 Page {
     property int dayOfWeek: -1
     property alias model: filtermodel.sourceModel
+    property alias title: header.title
 
     anchors.fill: parent
     tools: commonTools
 
     Item {
-        anchors.top: title.bottom
+        anchors.top: header.bottom
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
@@ -70,5 +71,5 @@ Page {
         ScrollDecorator { flickableItem: listview }
     }
 
-    PageHeader { id: title; title: WeekDay.numberToString(dayOfWeek) }
+    PageHeader { id: header; title: WeekDay.numberToString(dayOfWeek) }
 }
