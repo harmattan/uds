@@ -17,12 +17,25 @@
 
 .pragma library
 
-var myArray = new Array()
+/**
+ * Provides a fakelist implemenation.
+ * A fake list is a plain JavaScript Array. This is necessary because in QML one
+ * can only have QML lists, and those are rather limited when it comes to
+ * adding or removing QObject pointers.
+ *
+ * Whenever a QML list does not work a fakelist can be used by simply importing
+ * this file and using its identifier as if it were a static object in C++.
+ */
 
+/** The actual internal Array */
+var __array = new Array()
+
+/** @returns the current internal array */
 function getList() {
-    return myArray
+    return __array
 }
 
+/** @param item adds a new item to the internal array */
 function addItem(item) {
-    myArray.push(item)
+    __array.push(item)
 }
