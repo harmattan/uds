@@ -13,27 +13,6 @@ Page {
     anchors.fill: parent
     tools: commonTools
 
-    Rectangle {
-        id: title
-        height: 72
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-//        color: "#0886CE"
-        color: "#E3683D"
-
-        Text {
-            id: titleText
-            text: WeekDay.numberToString(dayOfWeek)
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.left: parent.left
-            anchors.leftMargin: 20
-            font.pixelSize: 28
-            font.family: UI.FONT_FAMILY_BOLD
-            color: "white"
-        }
-    }
-
     Item {
         anchors.top: title.bottom
         anchors.left: parent.left
@@ -77,5 +56,5 @@ Page {
         ScrollDecorator { flickableItem: listview }
     }
 
-    Component.onDestruction: console.debug("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+    PageHeader { title: WeekDay.numberToString(dayOfWeek) }
 }

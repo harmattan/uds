@@ -55,25 +55,5 @@ Page {
         }
     }
 
-    Rectangle {
-        id: title
-        height: 72
-        anchors.top: parent.top
-        anchors.left: parent.left
-        anchors.right: parent.right
-//        color: "#0886CE"
-        color: "#E3683D"
-
-        Text {
-            id: titleText
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.left: parent.left
-            anchors.leftMargin: 20
-            font.pixelSize: 28
-            font.family: "Nokia Pure Text Bold"
-            color: "white"
-            text: qsTr("Ubuntu Developer Summit")
-        }
-    }
-
+    PageHeader { title: qsTr("Ubuntu Developer Summit") }
 }

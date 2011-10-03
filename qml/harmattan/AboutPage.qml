@@ -20,18 +20,23 @@ Page {
             source: "../images/gplv3.png" }
     }
 
-    ListView {
+    Item {
         anchors {
             top: headerContainer.bottom; topMargin: 40;
             bottom: parent.bottom;
             left: parent.left; right: parent.right
         }
 
-        model: AboutModel {}
-        delegate: ListDelegate {
-            title: "© " + year + " " + name
-            subtitle: "<a href=\"mailto:" + mail + "\">" + mail + "</a>"
-            onClicked: Qt.openUrlExternally("mailto:" + mail)
+        ListView {
+            anchors.fill: parent
+            boundsBehavior: Flickable.StopAtBounds
+            clip: true
+            model: AboutModel {}
+            delegate: ListDelegate {
+                title: "© " + year + " " + name
+                subtitle: "<a href=\"mailto:" + mail + "\">" + mail + "</a>"
+                onClicked: Qt.openUrlExternally("mailto:" + mail)
+            }
         }
     }
 }
