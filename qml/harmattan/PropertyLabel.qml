@@ -24,7 +24,7 @@ Row {
     property alias label: label.text
     property alias value: value.text
 
-    width: screen.width - 20
+    width: screen.displayWidth - 25
     spacing: 10
 
     Label { id: label; font.bold: true }
