@@ -39,7 +39,7 @@ PageStackWindow {
         if (!initialized)
             init()
 
-        if (pageStack.currentPage.objectName === 'intro')
+        if (pageStack.currentPage.objectName === 'splash')
             pageStack.replace(mainPage)
 
         mainPage.busy = false
@@ -82,6 +82,8 @@ PageStackWindow {
             onClicked: { pageStack.pop(0); pageStack.replace(userPage) }
         }
         ToolIcon {
+            property bool canCreate: Qt.createComponent("MapPage.qml").createObject(null) !== null
+            visible: canCreate
             enabled: pageStack.currentPage.objectName !== "mapPage"
             platformIconId: "icon-m-toolbar-search".concat(enabled ? "" : "-dimmed")
             onClicked: { pageStack.pop(0); pageStack.replace(Qt.resolvedUrl("MapPage.qml"), {objectName: "mapPage"}) }
@@ -127,7 +129,7 @@ PageStackWindow {
             Qt.createComponent("../core/UpdateTimer.qml").createObject(appWindow)
             commonTools.visible = true
         } else {
-            pageStack.push(Qt.resolvedUrl('MainPage.qml'), { objectName: 'intro' })
+            pageStack.push(Qt.resolvedUrl('SplashPage.qml'), { objectName: 'splash' })
             Core.update()
         }
     }

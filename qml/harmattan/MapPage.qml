@@ -18,13 +18,14 @@
 import QtQuick 1.1
 import com.nokia.meego 1.0
 import QtMobility.location 1.2
+import "../core/core.js" as Core
 
 Page {
     id: page
     tools: commonTools
 
-    property real defaultLatitude: 47.50272
-    property real defaultLongitude: 19.0687939
+    property real defaultLatitude: Core.__location_latitude
+    property real defaultLongitude: Core.__location_longitude
     property int  defaultZoomLevel: 20
     property alias mapType: map.mapType
 

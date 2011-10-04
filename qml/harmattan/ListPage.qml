@@ -62,7 +62,7 @@ Page {
                 }
 
                 ToolIcon {
-                    platformIconId: "common-drilldown-arrow".concat(theme.inverted ? "-inverse" : "")
+                    iconId: "common-drilldown-arrow".concat(theme.inverted ? "-inverse" : "")
                     anchors.right: parent.right;
                     anchors.verticalCenter: parent.verticalCenter
                 }
