@@ -18,6 +18,7 @@
 import QtQuick 1.0
 import com.nokia.meego 1.0
 import "../core"
+import "../core/about.js" as About
 
 Page {
     id: page
@@ -30,11 +31,17 @@ Page {
     Row {
         id: headerContainer
         spacing: 10
-        Image { id: icon; source: "../images/icon.png" }
-        Label { anchors.verticalCenter: icon.verticalCenter
-            text: "12.04"; font.pixelSize: 32; font.bold: true; font.family: "Nokia Pure Text Bold" }
-        Image { anchors.verticalCenter: icon.verticalCenter
-            source: "../images/gplv3.png" }
+        Image { id: icon; source: "../images/icon80.png" }
+        Label {
+            anchors.verticalCenter: icon.verticalCenter
+            text: "12.04";
+            font.pixelSize: 32; font.bold: true; font.family: "Nokia Pure Text Bold"
+        }
+        Image {
+            anchors.verticalCenter: icon.verticalCenter
+            source: "../images/gplv3.png"
+            MouseArea { anchors.fill: parent; onClicked: Qt.openUrlExternally(About.gplUrl) }
+        }
     }
 
     Item {
