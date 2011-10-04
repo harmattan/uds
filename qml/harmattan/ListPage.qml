@@ -37,8 +37,20 @@ Page {
         anchors.right: parent.right
         anchors.bottom: parent.bottom
 
+        Label {
+            visible: !listview.gotOneItem
+            anchors.centerIn: parent
+            opacity: 0.2
+            font.bold: true
+            font.pixelSize: platformStyle.fontPixelSize * 1.5
+            text: qsTr("Empty :(")
+        }
+
         ListView {
             id: listview
+
+            property bool gotOneItem: false
+
             anchors.fill: parent
             anchors.margins: 10
             clip: true
@@ -66,6 +78,8 @@ Page {
                     anchors.right: parent.right;
                     anchors.verticalCenter: parent.verticalCenter
                 }
+
+                Component.onCompleted: listview.gotOneItem = true
             }
         }
         ScrollDecorator { flickableItem: listview }
