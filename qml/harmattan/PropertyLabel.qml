@@ -15,7 +15,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 1.0
+import QtQuick 1.1
 import com.nokia.meego 1.0
 
 Row {
@@ -24,7 +24,7 @@ Row {
     property alias label: label.text
     property alias value: value.text
 
-    width: screen.displayWidth - 25
+    width: page.width - 25
     spacing: 10
 
     Label { id: label; font.bold: true }
