@@ -17,6 +17,7 @@
 
 .pragma library
 
+/** prints all attributes (functions, properties etc.) of an object on the terminal */
 var getKeys = function(obj){
    for(var key in obj){
         console.debug(key)
