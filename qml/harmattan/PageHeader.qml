@@ -24,6 +24,7 @@ Rectangle {
     property alias title: titleText.text
     property alias backgroundColor: title.color
 
+
     height: 72
     anchors.top: parent.top
     anchors.left: parent.left
@@ -39,5 +40,7 @@ Rectangle {
         font.pixelSize: 28
         font.family: UI.FONT_FAMILY_BOLD
         color: "white"
+        elide: Text.ElideRight
+        width: parent.width - 20
     }
 }

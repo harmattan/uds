@@ -60,6 +60,12 @@ Page {
             delegate: ListDelegate {
                 title: display
                 subtitle: room
+
+                mainText.width: listview.width - drillIcon.width
+                mainText.elide: Text.ElideRight
+                subText.width: mainText.width
+                subText.elide: Text.ElideRight
+
                 onClicked: {
                     appWindow.pageStack.push(Qt.resolvedUrl("EventPage.qml"),
                                              {
@@ -74,6 +80,7 @@ Page {
                 }
 
                 ToolIcon {
+                    id: drillIcon
                     iconId: "common-drilldown-arrow".concat(theme.inverted ? "-inverse" : "")
                     anchors.right: parent.right;
                     anchors.verticalCenter: parent.verticalCenter

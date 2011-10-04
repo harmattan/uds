@@ -51,6 +51,9 @@ Item {
     property alias subtitle: subText.text
     property alias pressed: mouseArea.pressed
 
+    property alias mainText: mainText
+    property alias subText: subText
+
     property int titleSize: UI.LIST_TILE_SIZE
     property int titleWeight: Font.Bold
     property string titleFont: UI.FONT_FAMILY

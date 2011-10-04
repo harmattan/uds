@@ -83,22 +83,22 @@ Page {
 
     PageHeader {
         id: header
-        Item {
-            id: ratingContainer
-            anchors.right: parent.right
-            anchors.verticalCenter: parent.verticalCenter
-            width: rater.width + 32*2 // 32 is margin on each side
-            height: parent.height
-            RatingIndicator {
-                id: rater
-                anchors.centerIn: parent
-                maximumValue: 1
-                ratingValue: 0
-            }
-            MouseArea {
-                anchors.fill: parent
-                onClicked: rater.ratingValue = rater.ratingValue == 1 ? 0 : 1
-            }
-        }
+//        Item {
+//            id: ratingContainer
+//            anchors.right: parent.right
+//            anchors.verticalCenter: parent.verticalCenter
+//            width: rater.width + 32*2 // 32 is margin on each side
+//            height: parent.height
+//            RatingIndicator {
+//                id: rater
+//                anchors.centerIn: parent
+//                maximumValue: 1
+//                ratingValue: 0
+//            }
+//            MouseArea {
+//                anchors.fill: parent
+//                onClicked: rater.ratingValue = rater.ratingValue == 1 ? 0 : 1
+//            }
+//        }
     }
 }
