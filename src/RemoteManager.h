@@ -56,21 +56,17 @@ private:
     QString m_path;
 };
 
-class NetworkParserRunnable : public ParserRunnable
+class NetworkParser : public ParserRunnable
 {
     Q_OBJECT
 public:
-    NetworkParserRunnable(const QUrl &url);
+    NetworkParser();
 
 private slots:
-    void run();
     void parseReply(QNetworkReply *reply);
 
 private:
-    NetworkParserRunnable() {}
-
-    QUrl m_url;
-    QEventLoop *m_eventLoop;
+    void run() {}
 };
 
 class RemoteManager : public QObject

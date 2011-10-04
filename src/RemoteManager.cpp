@@ -55,26 +55,11 @@ void FileParserRunnable::run()
 
 // --------------------------------- Network -------------------------------- //
 
-NetworkParserRunnable::NetworkParserRunnable(const QUrl &url):
-    m_url(url)
+NetworkParser::NetworkParser()
 {
-    setAutoDelete(false);
 }
 
-void NetworkParserRunnable::run()
-{
-    qDebug() << Q_FUNC_INFO << "START";
-    QNetworkAccessManager *networkAccessManager = new QNetworkAccessManager;
-    connect(networkAccessManager, SIGNAL(finished(QNetworkReply*)),
-            this, SLOT(parseReply(QNetworkReply*)), Qt::QueuedConnection);
-    networkAccessManager->get(QNetworkRequest(m_url));
-
-    // Needed to actually do anything with QNAM
-    m_eventLoop = new QEventLoop;
-    m_eventLoop->exec();
-}
-
-void NetworkParserRunnable::parseReply(QNetworkReply *reply)
+void NetworkParser::parseReply(QNetworkReply *reply)
 {
     qDebug() << Q_FUNC_INFO << "START";
     Q_ASSERT(reply->error() == QNetworkReply::NoError);
@@ -99,8 +84,7 @@ void NetworkParserRunnable::parseReply(QNetworkReply *reply)
 
     reply->manager()->deleteLater();
     deleteLater();
-    m_eventLoop->exit(0);
-    m_eventLoop->deleteLater();
+    QThread::currentThread()->quit();
 }
 
 // --------------------------------- Manager -------------------------------- //
@@ -121,11 +105,21 @@ RemoteManager::~RemoteManager()
 void RemoteManager::update(const QUrl &url)
 {
     qDebug() << Q_FUNC_INFO << "START" << thread();
-    NetworkParserRunnable *parser = new NetworkParserRunnable(url);
+    NetworkParser *parser = new NetworkParser;
+    QNetworkAccessManager *networkAccessManager = new QNetworkAccessManager;
+
+    connect(networkAccessManager, SIGNAL(finished(QNetworkReply*)),
+            parser, SLOT(parseReply(QNetworkReply*)),
+            Qt::QueuedConnection);
     connect(parser, SIGNAL(done(QList<QSharedPointer<QCalEvent> >)),
             this, SLOT(parsingDone(QList<QSharedPointer<QCalEvent> >)),
             Qt::QueuedConnection);
-    QThreadPool::globalInstance()->start(parser);
+
+    networkAccessManager->get(QNetworkRequest(url));
+
+    QThread *t = new QThread(this);
+    parser->moveToThread(t);
+    t->start();
 }
 
 void RemoteManager::updateFromCache(const QUrl &url)
