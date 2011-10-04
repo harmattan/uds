@@ -146,6 +146,24 @@ void RemoteManager::parsingDone(QList<QSharedPointer<QCalEvent> > events)
     emit eventsChanged();
 }
 
+void RemoteManager::clearCache(const QUrl &url)
+{
+    QFile cacheFile(cacheFilePath(url));
+    if (cacheFile.exists())
+        cacheFile.remove();
+}
+
+bool RemoteManager::hasCache(const QUrl &url) const
+{
+    QFile cacheFile(cacheFilePath(url));
+    if (cacheFile.exists()) {
+        qDebug() << Q_FUNC_INFO << true;
+        return true;
+    }
+    qDebug() << Q_FUNC_INFO << false;
+    return false;
+}
+
 inline QString RemoteManager::cacheFilePath(const QUrl &url)
 {
     const QString cacheDirPath = QDesktopServices::storageLocation(QDesktopServices::CacheLocation);

@@ -39,6 +39,9 @@ PageStackWindow {
         if (!initialized)
             init()
 
+        if (pageStack.currentPage.objectName === 'intro')
+            pageStack.replace(mainPage)
+
         mainPage.busy = false
     }
 
@@ -48,8 +51,9 @@ PageStackWindow {
 
     showToolBar: true
     showStatusBar: true
-    initialPage: MainPage { id: mainPage }
+//    initialPage: mainPage
 
+    DayListPage { id: mainPage }
     ListPage { id: userPage; model: userCalendar.sessionModel }
 
     InfoBanner {
@@ -60,26 +64,27 @@ PageStackWindow {
 
     ToolBarLayout {
         id: commonTools
-        visible: true
+        visible: false
         ToolIcon {
             enabled: appWindow.pageStack.depth > 1
-            platformIconId: enabled ? "icon-m-toolbar-back" : "icon-m-toolbar-back-dimmed"
+            platformIconId: "icon-m-toolbar-back".concat(enabled ? "" : "-dimmed")
             onClicked: pageStack.pop()
         }
 
         ToolIcon {
-            enabled: !(pageStack.currentPage == initialPage)
-            platformIconId: enabled ? "icon-m-toolbar-home" : "icon-m-toolbar-home-dimmed"
-            onClicked: { pageStack.clear(); pageStack.push(initialPage) }
+            enabled: pageStack.currentPage != mainPage
+            platformIconId: "icon-m-toolbar-home".concat(enabled ? "" : "-dimmed")
+            onClicked: { pageStack.pop(0); pageStack.replace(mainPage) }
         }
         ToolIcon {
-//            enabled: !(pageStack.currentPage == userPage) && userPage.itemCount > 0
-            platformIconId: enabled ? "icon-m-toolbar-contact" : "icon-m-toolbar-contact-dimmed"
-            onClicked: { pageStack.clear(); pageStack.push(userPage) }
+            enabled: pageStack.currentPage != userPage /* || userPage.itemCount <= 0*/
+            platformIconId: "icon-m-toolbar-contact".concat(enabled ? "" : "-dimmed")
+            onClicked: { pageStack.pop(0); pageStack.replace(userPage) }
         }
         ToolIcon {
-            platformIconId: "icon-m-toolbar-search"
-            onClicked: { pageStack.clear(); pageStack.push(Qt.resolvedUrl("MapPage.qml")) }
+            enabled: pageStack.currentPage.objectName !== "mapPage"
+            platformIconId: "icon-m-toolbar-search".concat(enabled ? "" : "-dimmed")
+            onClicked: { pageStack.pop(0); pageStack.replace(Qt.resolvedUrl("MapPage.qml"), {objectName: "mapPage"}) }
         }
         ToolIcon {
             platformIconId: "icon-m-toolbar-settings"
@@ -115,7 +120,15 @@ PageStackWindow {
     Component.onCompleted: {
         mainCalendar.eventsChanged.connect(onMainEventsChanged)
         userCalendar.eventsChanged.connect(onUserEventsChanged)
-        Core.updateFromCache();
-        Qt.createComponent("InitialUpdateTimer.qml").createObject(appWindow)
+
+        if (Core.hasCache()) {
+            pageStack.push(mainPage)
+            Core.updateFromCache();
+            Qt.createComponent("InitialUpdateTimer.qml").createObject(appWindow)
+            commonTools.visible = true
+        } else {
+            pageStack.push(Qt.resolvedUrl('MainPage.qml'), { objectName: 'intro' })
+            Core.update()
+        }
     }
 }

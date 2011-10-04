@@ -22,6 +22,18 @@ function settings() {
     return Qt.createComponent("../core/Settings.qml").createObject(null)
 }
 
+function hasCache() {
+    return mainCalendar.hasCache(__ical())
+}
+
+function clearCache() {
+    mainCalendar.clearCache(__ical())
+
+    var username = settings().value("lpuser")
+    if (username)
+        userCalendar.clearCache(__icalParticipant(username))
+}
+
 function updateFromCache() {
     __updateInternal(true)
 }
@@ -32,6 +44,9 @@ function update() {
 
 // -------------------------------- PRIVATE --------------------------------- //
 
+var __name = 'UDS-O'
+var __location = 'Budapest, Hungary'
+var __time = '09 May - 13 May, 2011'
 var __id = 'uds-o'
 
 function __ical() {

@@ -47,21 +47,13 @@ void SessionModel::setEvents(const EventList &events)
 
 int SessionModel::rowCount(const QModelIndex &parent) const
 {
-    if (parent.isValid()) {
-        qDebug() << Q_FUNC_INFO << "valid";
-        return 50;
-    }
-//    qDebug() << Q_FUNC_INFO << "invalid";
+    Q_ASSERT(!parent.isValid());
     return m_events.count();
 }
 
 int SessionModel::columnCount(const QModelIndex &parent) const
 {
-    if (parent.isValid()) {
-        qDebug() << Q_FUNC_INFO << "valid";
-        return 50;
-    }
-//    qDebug() << Q_FUNC_INFO << "invalid";
+    Q_ASSERT(!parent.isValid());
     return 1;
 }
 

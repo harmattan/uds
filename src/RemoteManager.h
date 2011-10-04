@@ -81,6 +81,8 @@ public:
     explicit RemoteManager(QObject *parent = 0);
     ~RemoteManager();
 
+    Q_INVOKABLE void clearCache(const QUrl &url);
+    Q_INVOKABLE bool hasCache(const QUrl &url) const;
     static QString cacheFilePath(const QUrl &url);
 
     SessionModel *sessionModel() const { return m_sessionModel; }
