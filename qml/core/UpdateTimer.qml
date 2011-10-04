@@ -15,10 +15,21 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 1.1
+import QtQuick 1.0
 import "../core/core.js" as Core
 
+/**
+ * Timer to call update after 5 seconds.
+ * The timer is active right after creation, should different behavior be
+ * desired the interval property needs to be modified *at* object creation.
+ *
+ * @code
+ * Qt.createComponent("../core/UpdateTimer.qml").createObject(parent)
+ * @endcode
+ */
 Timer {
-    interval: 5000; running: true; repeat: false
+    interval: 5000
+    running: true
+    repeat: false
     onTriggered: { Core.update(); destroy() }
 }

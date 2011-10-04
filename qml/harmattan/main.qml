@@ -124,7 +124,7 @@ PageStackWindow {
         if (Core.hasCache()) {
             pageStack.push(mainPage)
             Core.updateFromCache();
-            Qt.createComponent("InitialUpdateTimer.qml").createObject(appWindow)
+            Qt.createComponent("../core/UpdateTimer.qml").createObject(appWindow)
             commonTools.visible = true
         } else {
             pageStack.push(Qt.resolvedUrl('MainPage.qml'), { objectName: 'intro' })
