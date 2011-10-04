@@ -24,6 +24,7 @@ Row {
     property alias label: label.text
     property alias value: value.text
 
+    width: screen.width - 20
     spacing: 10
 
     Label { id: label; font.bold: true }
@@ -31,7 +32,6 @@ Row {
         id: value;
         anchors.bottom: parent.bottom
         wrapMode: Text.Wrap
-//        FIXME: needs width, but width is bottom up, rather than top down :(
-//        width:
+        width: parent.width - label.width
     }
 }

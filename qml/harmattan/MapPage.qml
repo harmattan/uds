@@ -26,7 +26,7 @@ Page {
 
     property real defaultLatitude: Core.__location_latitude
     property real defaultLongitude: Core.__location_longitude
-    property int  defaultZoomLevel: 10
+    property int  defaultZoomLevel: 13
     property alias mapType: map.mapType
 
     anchors.fill: parent
