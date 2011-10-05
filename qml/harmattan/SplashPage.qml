@@ -53,15 +53,18 @@ Page {
         Image { anchors.horizontalCenter: parent.horizontalCenter; source: '../images/icon164.png' }
         Label {
             id: title
+            width: page.width
             anchors.horizontalCenter: parent.horizontalCenter;
             font.pixelSize: platformStyle.fontPixelSize*1.5;
         }
         Label {
             id: location
+            width: page.width
             anchors.horizontalCenter: parent.horizontalCenter
         }
         Label {
             id: time
+            width: page.width
             anchors.horizontalCenter: parent.horizontalCenter
         }
         BusyIndicator { anchors.horizontalCenter: parent.horizontalCenter; running: true }
