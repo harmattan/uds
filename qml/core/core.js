@@ -31,7 +31,7 @@ function clearCache() {
 
     var username = settings().value("lpuser")
     if (username)
-        userCalendar.clearCache(__icalParticipant(username))
+        userCalendar.clearCache(__icalParticipant())
 }
 
 function updateFromCache() {
@@ -52,11 +52,11 @@ var __location_latitude = 47.50272
 var __location_longitude = 19.0687939
 
 function __ical() {
-    return 'http://summit.ubuntu.com/' + __id + '.ical'
+    return 'http://summit.ubuntu.com/' + settings().value("name") + '.ical'
 }
 
-function __icalParticipant(participant) {
-    return 'http://summit.ubuntu.com/' + __id + '/participant/' + participant + '.ical'
+function __icalParticipant() {
+    return 'http://summit.ubuntu.com/' + settings().value("name") + '/participant/' + settings().value("lpuser") + '.ical'
 }
 
 function __updateInternal(fromCache)
@@ -69,7 +69,7 @@ function __updateInternal(fromCache)
 
     var username = Qt.createComponent("../core/Settings.qml").createObject(null).value("lpuser")
     if (username) {
-        url = __icalParticipant(username)
+        url = __icalParticipant()
         if (fromCache)
             userCalendar.updateFromCache(url)
         else
