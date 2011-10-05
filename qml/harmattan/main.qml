@@ -74,19 +74,19 @@ PageStackWindow {
         ToolIcon {
             enabled: pageStack.currentPage != mainPage
             platformIconId: "icon-m-toolbar-home".concat(enabled ? "" : "-dimmed")
-            onClicked: { pageStack.pop(0); pageStack.replace(mainPage) }
+            onClicked: { pageStack.clear(); pageStack.push(mainPage) }
         }
         ToolIcon {
             enabled: pageStack.currentPage != userPage /* || userPage.itemCount <= 0*/
             platformIconId: "icon-m-toolbar-contact".concat(enabled ? "" : "-dimmed")
-            onClicked: { pageStack.pop(0); pageStack.replace(userPage) }
+            onClicked: { pageStack.clear(); pageStack.push(userPage) }
         }
         ToolIcon {
             property bool canCreate: Qt.createComponent("MapPage.qml").createObject(null) !== null
             visible: canCreate
             enabled: pageStack.currentPage.objectName !== "mapPage"
             platformIconId: "icon-m-toolbar-search".concat(enabled ? "" : "-dimmed")
-            onClicked: { pageStack.pop(0); pageStack.replace(Qt.resolvedUrl("MapPage.qml"), {objectName: "mapPage"}) }
+            onClicked: { pageStack.clear(); pageStack.push(Qt.resolvedUrl("MapPage.qml"), {objectName: "mapPage"}) }
         }
         ToolIcon {
             platformIconId: "icon-m-toolbar-settings"
