@@ -17,24 +17,55 @@
 
 import QtQuick 1.1
 import com.nokia.meego 1.0
+import "../core"
+import "../core/api.js" as API
 import "../core/core.js" as Core
+import "../core/introspect.js" as Introspect
 
 Page {
     id: page
 
+    property date startDate
+    property date endDate
+
     anchors.fill: parent
 
+    JsonHandler {
+        id: handler
+
+        onListModelChanged: {
+            var info = listModel.get(listModel.count - 1)
+            title.text = info.title
+            location.text = info.location
+            page.startDate = info.date_start
+            page.endDate = info.date_end
+            time.text = Qt.formatDate(page.startDate) + ' - ' + Qt.formatDate(page.endDate)
+            Core.settings().setValue("name", info.name)
+            Core.update()
+        }
+    }
+
     Column {
+        id: column
         anchors.centerIn: parent
         spacing: 10
+
         Image { anchors.horizontalCenter: parent.horizontalCenter; source: '../images/icon164.png' }
         Label {
+            id: title
             anchors.horizontalCenter: parent.horizontalCenter;
             font.pixelSize: platformStyle.fontPixelSize*1.5;
-            text: Core.__name
         }
-        Label { anchors.horizontalCenter: parent.horizontalCenter; text: Core.__location }
-        Label { anchors.horizontalCenter: parent.horizontalCenter; text: Core.__time }
+        Label {
+            id: location
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
+        Label {
+            id: time
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
         BusyIndicator { anchors.horizontalCenter: parent.horizontalCenter; running: true }
     }
+
+    Component.onCompleted: handler.load(API.summit)
 }

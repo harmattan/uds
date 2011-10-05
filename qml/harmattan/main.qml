@@ -65,6 +65,7 @@ PageStackWindow {
     ToolBarLayout {
         id: commonTools
         visible: false
+
         ToolIcon {
             enabled: appWindow.pageStack.depth > 1
             platformIconId: "icon-m-toolbar-back".concat(enabled ? "" : "-dimmed")
@@ -130,7 +131,6 @@ PageStackWindow {
             commonTools.visible = true
         } else {
             pageStack.push(Qt.resolvedUrl('SplashPage.qml'), { objectName: 'splash' })
-            Core.update()
         }
     }
 }
