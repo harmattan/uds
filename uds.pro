@@ -16,10 +16,6 @@ contains(MEEGO_EDITION, harmattan) {                                 # Harmattan
     desktopfile.path = /usr/share/applications
     INSTALLS += desktopfile
 
-    icon.files = $${TARGET}.png
-    icon.path = /usr/share/icons/hicolor/80x80/apps
-    INSTALLS += icon
-
     harmattan_qml.source = qml/harmattan
     harmattan_qml.target = qml
     DEPLOYMENTFOLDERS += harmattan_qml
@@ -121,3 +117,14 @@ HEADERS += \
 # Qt Creator Deployment Helpers
 include(src/qmlapplicationviewer/qmlapplicationviewer.pri)
 qtcAddDeployment()
+
+# Icon deployment rules MUST BE after the qtc deployment
+contains(MEEGO_EDITION,harmattan) {
+    icon.files = icons/harmattan/uds80.png
+    icon.path = /usr/share/icons/hicolor/80x80/apps
+    INSTALLS += icon
+} else: maemo5 {
+    icon.files = icons/harmattan/uds64.png
+    icon.path = /usr/share/icons/hicolor/64x64/apps
+    INSTALLS += icon
+}

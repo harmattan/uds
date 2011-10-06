@@ -4,7 +4,7 @@ Version=1.0
 Type=Application
 Terminal=false
 Name=UDS
-Exec=/usr/bin/invoker --type=d -s /opt/uds/bin/uds
+Exec=/opt/uds/bin/uds
 Icon=/usr/share/icons/hicolor/80x80/apps/uds80.png
 X-Window-Icon=
 X-HildonDesk-ShowInToolbar=true
