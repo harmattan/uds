@@ -16,27 +16,7 @@
 */
 
 import QtQuick 1.0
-import com.ubuntu.summit.maemo 5.0
 
-Window {
-    id: window
-
-    property alias delegate: view.delegate
-    property alias model: view.model
-
-    anchors.fill: parent
-    title: "All Sessions"
-
-    SystemPalette { id: systemPalette; colorGroup: SystemPalette.Active }
-
-    Item {
-        anchors.fill: parent
-
-        ListView {
-            id: view
-            anchors.fill: parent
-            anchors.margins: 20
-            clip: true
-        }
-    }
+Text {
+    color: systemPalette.text
 }

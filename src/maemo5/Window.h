@@ -95,13 +95,17 @@ private:
 class Window : public QDeclarativeItem
 {
     Q_OBJECT
+    Q_PROPERTY(QFont font READ font)
     Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged)
-    Q_PROPERTY(WindowStack* windowStack READ windowStack)
+    Q_PROPERTY(WindowStack *windowStack READ windowStack)
 public:
     Window(QDeclarativeItem *parent = 0);
     ~Window();
 
-    void componentComplete();
+    Q_INVOKABLE void addAction(QObject *actionObject);
+    Q_INVOKABLE void addActions(QObject *menuGroup);
+
+    QFont font() const { return m_window->font(); }
 
     QString title() const;
     void setTitle(const QString &title);
@@ -116,7 +120,6 @@ signals:
     void titleChanged();
 
 private slots:
-    void updateMainWindowParent(QDeclarativeItem *parent);
     void updateSize(QSize newSize);
 
 private:

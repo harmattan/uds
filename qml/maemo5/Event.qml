@@ -1,1 +1,0 @@
-../ubuntudevelopersummit/Event.qml

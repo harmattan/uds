@@ -15,28 +15,24 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 1.0
-import com.ubuntu.summit.maemo 5.0
+#ifndef MENUGROUP_H
+#define MENUGROUP_H
 
-Window {
-    id: window
+#include <QtDeclarative/QDeclarativeItem>
 
-    property alias delegate: view.delegate
-    property alias model: view.model
+class QActionGroup;
+class MenuGroup : public QDeclarativeItem
+{
+    Q_OBJECT
+public:
+    explicit MenuGroup(QDeclarativeItem *parent = 0);
 
-    anchors.fill: parent
-    title: "All Sessions"
+    void componentComplete();
 
-    SystemPalette { id: systemPalette; colorGroup: SystemPalette.Active }
+    QList<QAction *> actions() const { return m_actionGroup->actions(); }
 
-    Item {
-        anchors.fill: parent
+private:
+    QActionGroup *m_actionGroup;
+};
 
-        ListView {
-            id: view
-            anchors.fill: parent
-            anchors.margins: 20
-            clip: true
-        }
-    }
-}
+#endif // MENUGROUP_H

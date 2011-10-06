@@ -15,28 +15,15 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 1.0
-import com.ubuntu.summit.maemo 5.0
+#include "MenuItem.h"
 
-Window {
-    id: window
+#include <QtCore/QDebug>
+#include <QtGui/QAction>
 
-    property alias delegate: view.delegate
-    property alias model: view.model
-
-    anchors.fill: parent
-    title: "All Sessions"
-
-    SystemPalette { id: systemPalette; colorGroup: SystemPalette.Active }
-
-    Item {
-        anchors.fill: parent
-
-        ListView {
-            id: view
-            anchors.fill: parent
-            anchors.margins: 20
-            clip: true
-        }
-    }
+MenuItem::MenuItem(QObject *parent) :
+    QAction(parent)
+{
+    qDebug() << Q_FUNC_INFO;
+//    if (qobject_cast<QActionGroup *>(parent))
+//        setCheckable(true);
 }

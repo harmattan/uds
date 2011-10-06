@@ -30,8 +30,10 @@
 #ifdef Q_WS_HARMATTAN
 #include <applauncherd/MDeclarativeCache>
 #elif Q_WS_MAEMO_5
-#include <maemo5/DeclarativeShell.h>
-#include <maemo5/Window.h>
+#include "maemo5/DeclarativeShell.h"
+#include "maemo5/MenuGroup.h"
+#include "maemo5/MenuItem.h"
+#include "maemo5/Window.h"
 #else
 #include "qmlapplicationviewer.h"
 #endif
@@ -76,7 +78,9 @@ int main(int argc, char *argv[])
     qmlRegisterType<Settings>("com.ubuntu.summit", 1, 0, "Settings");
 #ifdef Q_WS_MAEMO_5
     qmlRegisterType<StackedWindow>("com.ubuntu.summit.maemo", 5, 0, "StackedWindow");
-    qmlRegisterType<Window>("com.ubuntu.summit.maemo", 5, 0, "Window");
+    qmlRegisterType<MenuGroup>("com.ubuntu.summit.maemo", 5, 0, "MenuGroup");
+    qmlRegisterType<MenuItem>("com.ubuntu.summit.maemo", 5, 0, "MenuItem");
+    qmlRegisterType<Window>("com.ubuntu.summit.maemo", 5, 0, "WindowBase");
     qmlRegisterType<WindowStack>();
 #endif
 

@@ -15,28 +15,16 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import QtQuick 1.0
-import com.ubuntu.summit.maemo 5.0
+#ifndef MENUITEM_H
+#define MENUITEM_H
 
-Window {
-    id: window
+#include <QtGui/QAction>
 
-    property alias delegate: view.delegate
-    property alias model: view.model
+class MenuItem : public QAction
+{
+    Q_OBJECT
+public:
+    explicit MenuItem(QObject *parent = 0);
+};
 
-    anchors.fill: parent
-    title: "All Sessions"
-
-    SystemPalette { id: systemPalette; colorGroup: SystemPalette.Active }
-
-    Item {
-        anchors.fill: parent
-
-        ListView {
-            id: view
-            anchors.fill: parent
-            anchors.margins: 20
-            clip: true
-        }
-    }
-}
+#endif // MENUITEM_H

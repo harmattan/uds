@@ -16,27 +16,34 @@
 */
 
 import QtQuick 1.0
-import com.ubuntu.summit.maemo 5.0
 
-Window {
-    id: window
+Item {
+    id: listDelegate
 
-    property alias delegate: view.delegate
-    property alias model: view.model
+    signal clicked
 
-    anchors.fill: parent
-    title: "All Sessions"
+    property alias title: title
 
-    SystemPalette { id: systemPalette; colorGroup: SystemPalette.Active }
+    height: 70
+    anchors { left: parent.left; right: parent.right }
 
-    Item {
+    Label {
+        id: title
+        anchors.verticalCenter: parent.verticalCenter
+        height: font.pixelSize + 8
+    }
+
+    Rectangle {
+        id: divider
+        anchors.bottom: parent.bottom
+        height: 1
+        width: parent.width - 10
+        anchors.horizontalCenter: parent.horizontalCenter
+        color: "#002439"
+    }
+
+    MouseArea {
         anchors.fill: parent
-
-        ListView {
-            id: view
-            anchors.fill: parent
-            anchors.margins: 20
-            clip: true
-        }
+        onClicked: listDelegate.clicked()
     }
 }

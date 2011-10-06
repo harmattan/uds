@@ -68,7 +68,7 @@ inline QDeclarativeEngine *DeclarativeShell::engine() const
     return m_engine;
 }
 
-inline QDeclarativeContext *DeclarativeShell::rootContext() const
+QDeclarativeContext *DeclarativeShell::rootContext() const
 {
     return m_engine->rootContext();
 }

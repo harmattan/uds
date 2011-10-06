@@ -17,6 +17,8 @@
 
 #include "Window.h"
 
+#include <QtGui/QApplication>
+#include <QtGui/QDesktopWidget>
 #include <QtGui/QResizeEvent>
 
 void WindowStack::push(QObject *object)
@@ -36,6 +38,7 @@ void WindowStack::push(QObject *object)
     }
     m_stack.push(mainWindow);
     mainWindow->installEventFilter(this);
+    mainWindow->scene()->addItem(window);
     mainWindow->show();
 }
 
@@ -61,10 +64,13 @@ void StackedWindow::setInitialWindow(Window *window)
 
 // -------------------------------------------------------------------------- //
 
+#include <QtGui/QMenuBar>
+
 MainWindow::MainWindow() :
     m_view(new QDeclarativeView)
 {
     setAttribute(Qt::WA_Maemo5StackedWindow);
+//    setAttribute(Qt::WA_Maemo5AutoOrientation, true);
     setCentralWidget(m_view);
 }
 
@@ -76,6 +82,10 @@ MainWindow::~MainWindow()
 bool MainWindow::event(QEvent *event)
 {
     switch (event->type()) {
+    case QEvent::Hide: {
+        qDebug() << Q_FUNC_INFO << "DELETE";
+        deleteLater();
+    }
     case QEvent::Resize: {
         const QResizeEvent *resize = static_cast<const QResizeEvent *>(event);
         emit sizeChanged(resize->size());
@@ -89,13 +99,12 @@ bool MainWindow::event(QEvent *event)
 
 // -------------------------------------------------------------------------- //
 
+#include "MenuGroup.h"
 Window::Window(QDeclarativeItem *parent) :
     QDeclarativeItem(parent),
     m_window(new MainWindow),
     m_stack(0)
 {
-    connect(this, SIGNAL(parentChanged(QDeclarativeItem*)),
-            this, SLOT(updateMainWindowParent(QDeclarativeItem*)));
     connect(m_window, SIGNAL(sizeChanged(QSize)),
             this, SLOT(updateSize(QSize)));
     m_window->view()->setResizeMode(QDeclarativeView::SizeRootObjectToView);
@@ -103,13 +112,19 @@ Window::Window(QDeclarativeItem *parent) :
 
 Window::~Window()
 {
-    delete m_window;
 }
 
-void Window::componentComplete()
+void Window::addAction(QObject *actionObject)
 {
-    m_window->scene()->addItem(this);
-    QDeclarativeItem::componentComplete();
+    qDebug() << "hui";
+    QAction *action = qobject_cast<QAction *>(actionObject);
+    m_window->menuBar()->addAction(action);
+}
+
+void Window::addActions(QObject *actionObjects)
+{
+    MenuGroup *group = qobject_cast<MenuGroup *>(actionObjects);
+    m_window->menuBar()->addActions(group->actions());
 }
 
 QString Window::title() const
@@ -130,13 +145,6 @@ WindowStack *Window::windowStack()
 void Window::setWindowStack(WindowStack *stack)
 {
     m_stack = stack;
-}
-
-void Window::updateMainWindowParent(QDeclarativeItem *parent)
-{
-    MainWindow *parentWindow = qobject_cast<MainWindow *>(parent);
-    if (parentWindow)
-        m_window->setParent(parentWindow);
 }
 
 void Window::updateSize(QSize newSize)
