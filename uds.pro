@@ -23,11 +23,15 @@ contains(MEEGO_EDITION, harmattan) {                                 # Harmattan
     message("Building for Maemo 5")
     DEFINES += Q_WS_MAEMO_5
     SOURCES += \
-        src/maemo5/Window.cpp \
-        src/maemo5/DeclarativeShell.cpp
+        src/maemo5/DeclarativeShell.cpp \
+        src/maemo5/MenuGroup.cpp \
+        src/maemo5/MenuItem.cpp \
+        src/maemo5/Window.cpp
     HEADERS += \
-        src/maemo5/Window.h \
-        src/maemo5/DeclarativeShell.h
+        src/maemo5/DeclarativeShell.h \
+        src/maemo5/MenuGroup.h \
+        src/maemo5/MenuItem.h \
+        src/maemo5/Window.h
 
     maemo_5_qml.source = qml/maemo5
     maemo_5_qml.target = qml
@@ -107,12 +111,10 @@ SOURCES += \
     src/SessionModel.cpp
 
 HEADERS += \
-    src/RemoteManager.h \
     src/DesktopServices.h \
+    src/RemoteManager.h \
     src/SessionModel.h \
     src/Settings.h
-
-
 
 # Qt Creator Deployment Helpers
 include(src/qmlapplicationviewer/qmlapplicationviewer.pri)
