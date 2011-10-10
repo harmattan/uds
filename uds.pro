@@ -127,4 +127,6 @@ contains(MEEGO_EDITION,harmattan) {
     icon.files = icons/harmattan/uds64.png
     icon.path = /usr/share/icons/hicolor/64x64/apps
     INSTALLS += icon
+} else: symbian {
+    ICON = icons/symbian/uds.svg
 }
