@@ -19,8 +19,6 @@
 
 #include <QtCore/QDebug>
 
-#include "qcalevent.h"
-
 SessionModel::SessionModel(QObject *parent) :
     QAbstractTableModel(parent)
 {
@@ -64,7 +62,6 @@ QVariant SessionModel::data(const QModelIndex &index, int role) const
     switch (static_cast<Qt::ItemDataRole>(role)) {
     case Qt::DisplayRole:
         return event->summary();
-//        return QVariant(QString("French fries"));
         break;
     }
 

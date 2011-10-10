@@ -23,7 +23,7 @@
 #include <QtCore/QSharedPointer>
 #include <QtGui/QSortFilterProxyModel>
 
-class QCalEvent;
+#include "qcalevent.h"
 
 class SessionModel : public QAbstractTableModel
 {

@@ -24,7 +24,8 @@
 #include <QtCore/QUrl>
 #include <QtDeclarative/QDeclarativeListProperty>
 
-class QCalEvent;
+#include "qcalevent.h"
+
 class QDeclarativeContext;
 class QEventLoop;
 class QNetworkAccessManager;
