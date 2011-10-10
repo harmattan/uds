@@ -6,7 +6,21 @@ TEMPLATE = app
 TARGET = uds
 QT += gui network
 
-contains(MEEGO_EDITION, harmattan) {                                 # Harmattan
+# OS components can be forced by adding CONFIG+=os_name to the qmake call.
+# Options are: os_harmattan, os_maemo5, os_symbian, os_android, os_desktop.
+contains(MEEGO_EDITION, harmattan)|!isEmpty(HARMATTAN) {
+    CONFIG += os_harmattan
+} else:maemo5 {
+    CONFIG += os_maemo5
+} else:symbian {
+    CONFIG += os_symbian
+} else:android {
+    CONFIG += os_android
+} else {
+    CONFIG += os_desktop
+}
+
+os_harmattan {                                                       # Harmattan
     message("Building for Harmattan")
     DEFINES += Q_WS_HARMATTAN
     DEFINES += MEEGO_EDITION_HARMATTAN
@@ -19,7 +33,7 @@ contains(MEEGO_EDITION, harmattan) {                                 # Harmattan
     harmattan_qml.source = qml/harmattan
     harmattan_qml.target = qml
     DEPLOYMENTFOLDERS += harmattan_qml
-} else:maemo5 {                                                      # Fremantle
+} else:os_maemo5 {                                                   # Fremantle
     message("Building for Maemo 5")
     DEFINES += Q_WS_MAEMO_5
     SOURCES += \
@@ -36,7 +50,7 @@ contains(MEEGO_EDITION, harmattan) {                                 # Harmattan
     maemo_5_qml.source = qml/maemo5
     maemo_5_qml.target = qml
     DEPLOYMENTFOLDERS += maemo_5_qml
-} else:symbian|!isEmpty(SYMBIAN) {                                     # Symbian
+} else:os_symbian {                                                    # Symbian
     message("Building for Symbian")
     DEFINES += Q_WS_SYMBIAN
 
@@ -58,7 +72,7 @@ contains(MEEGO_EDITION, harmattan) {                                 # Harmattan
     symbian_qml.source = qml/symbian
     symbian_qml.target = qml
     DEPLOYMENTFOLDERS += symbian_qml
-} else:!isEmpty(ANDROID) {                                             # Android
+} else:os_android {                                                    # Android
     message("Building for Android")
     DEFINES += Q_WS_ANDROID
 
@@ -89,11 +103,13 @@ contains(MEEGO_EDITION, harmattan) {                                 # Harmattan
     android_qml.source = qml/android
     android_qml.target = qml
     DEPLOYMENTFOLDERS += android_qml
-} else {                                                               # Desktop
+} else:os_desktop {                                                         # Desktop
     message("Building for Desktop")
     desktop_qml.source = qml/desktop
     desktop_qml.target = qml
     DEPLOYMENTFOLDERS += desktop_qml
+} else {
+    error("No viable QtQuick target found.")
 }
 
 core_qml.source = qml/core
@@ -121,14 +137,15 @@ include(src/qmlapplicationviewer/qmlapplicationviewer.pri)
 qtcAddDeployment()
 
 # Icon deployment rules MUST BE after the qtc deployment
-contains(MEEGO_EDITION,harmattan) {
+os_harmattan {
     icon.files = icons/harmattan/uds80.png
     icon.path = /usr/share/icons/hicolor/80x80/apps
     INSTALLS += icon
-} else: maemo5 {
+} else:os_maemo5{
     icon.files = icons/harmattan/uds64.png
     icon.path = /usr/share/icons/hicolor/64x64/apps
     INSTALLS += icon
-} else: symbian {
+} else:os_symbian {
     ICON = icons/symbian/uds.svg
 }
+

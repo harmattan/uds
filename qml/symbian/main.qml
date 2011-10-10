@@ -2,55 +2,40 @@ import QtQuick 1.0
 import com.nokia.symbian 1.0
 import "../core"
 import "../core/core.js" as Core
-import "../core/fakelist.js" as FakeList
-import "../core/weekday.js" as WeekDay
 
 Window {
     id: window
 
-    property variant listPages: undefined
-
-    function initListPages() {
-        var listComponent = Qt.createComponent("ListPage.qml")
-        var buttonComponent = Qt.createComponent("DayButton.qml")
-
-        for (var i = 0; i < 7; ++i) {
-            var button = buttonComponent.createObject(mainPage.column, {"weekDay": i, "anchors.horizontalCenter": mainPage.column.horizontalCenter})
-            var page = listComponent.createObject(button, { title: WeekDay.numberToString(i)} )
-
-            page.dayOfWeek = i
-            page.model = mainCalendar.sessionModel
-
-            FakeList.addItem(page)
-            button.page = page
-
-        }
-        listPages = FakeList.getList()
-    }
-
     function onMainEventsChanged() {
-        if (listPages === undefined)
-            initListPages()
-
+        if (pageStack.currentPage.objectName === 'splash')
+            pageStack.replace(mainPage)
         mainPage.busy = false
+
+        statusBar.visible = true
+        toolBar.visible = true
     }
 
     function onUserEventsChanged() {
         userPage.title = Qt.createComponent("../core/Settings.qml").createObject(null).value("lpuser")
     }
 
-    MainPage { id: mainPage }
-
-    ListPage { id: userPage; model: userCalendar.sessionModel }
-
-    StatusBar {
-        id: statusBar
-        anchors.top: window.top
-    }
+    StatusBar { id: statusBar; anchors.top: window.top }
 
     PageStack {
         id: pageStack
         anchors { left: parent.left; right: parent.right; top: statusBar.bottom; bottom: toolBar.top }
+        onDepthChanged: console.debug("DEPTH::::"+depth)
+        onCurrentPageChanged: console.debug("CURRENT CHAGED")
+    }
+
+    MainPage { id: mainPage }
+    ListPage { id: userPage; model: userCalendar.sessionModel }
+
+    Menu {
+        id: menu
+        content: MenuLayout {
+            MenuItem { text: qsTr("Settings"); onClicked: pageStack.push(Qt.resolvedUrl("SettingsDialog.qml")) }
+        }
     }
 
     ToolBar {
@@ -78,18 +63,25 @@ Window {
             }
             ToolButton {
                 flat: true
-                iconSource: "toolbar-settings"
-                onClicked: Qt.createComponent("SettingsDialog.qml").createObject(pageStack.currentPage).open()
+                iconSource: "toolbar-list"
+                onClicked: menu.open()
             }
         }
     }
 
     Component.onCompleted: {
-        pageStack.push(mainPage)
-
         mainCalendar.eventsChanged.connect(onMainEventsChanged)
         userCalendar.eventsChanged.connect(onUserEventsChanged)
-        Core.updateFromCache()
-        Core.update()
+
+//        if (Core.hasCache()) {
+//            pageStack.push(mainPage)
+//            Core.updateFromCache();
+//            Qt.createComponent("../core/UpdateTimer.qml").createObject(null)
+//            commonTools.visible = true
+//        } else {
+            statusBar.visible = false
+            toolBar.visible = false
+            pageStack.push(Qt.resolvedUrl('SplashPage.qml'), { objectName: 'splash' })
+//        }
     }
 }

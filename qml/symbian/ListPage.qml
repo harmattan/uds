@@ -8,6 +8,7 @@ Page {
     property string title: ''
     property alias dayOfWeek: filtermodel.dateFilter
     property alias model: filtermodel.sourceModel
+    property alias listview: listview
     property alias itemCount: listview.count
 
     anchors.fill: parent
@@ -37,6 +38,7 @@ Page {
 
         delegate: ListItem {
             id: item
+            subItemIndicator: true
             Column {
                 anchors.fill: item.padding
                 ListItemText {
