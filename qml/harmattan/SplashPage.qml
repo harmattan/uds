@@ -54,17 +54,20 @@ Page {
         Label {
             id: title
             width: page.width
+            horizontalAlignment: Text.AlignHCenter
             anchors.horizontalCenter: parent.horizontalCenter;
             font.pixelSize: platformStyle.fontPixelSize*1.5;
         }
         Label {
             id: location
             width: page.width
+            horizontalAlignment: Text.AlignHCenter
             anchors.horizontalCenter: parent.horizontalCenter
         }
         Label {
             id: time
             width: page.width
+            horizontalAlignment: Text.AlignHCenter
             anchors.horizontalCenter: parent.horizontalCenter
         }
         BusyIndicator { anchors.horizontalCenter: parent.horizontalCenter; running: true }
