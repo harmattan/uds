@@ -36,22 +36,11 @@ Page {
             }
         }
 
-        delegate: ListItem {
-            id: item
+        delegate: ListDelegate {
             subItemIndicator: true
-            Column {
-                anchors.fill: item.padding
-                ListItemText {
-                    mode: item.mode
-                    role: "Title"
-                    text: display
-                }
-                ListItemText {
-                    mode: item.mode
-                    role: "SubTitle"
-                    text: room
-                }
-            }
+            title: display
+            subtitle: room
+
             onClicked: {
                 console.debug(listview.model)
                 var eventPageComponent = Qt.createComponent("EventPage.qml")
