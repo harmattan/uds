@@ -111,6 +111,7 @@ PageStackWindow {
         MenuLayout {
             MenuItem { text: qsTr("Landscape"); onClicked: screen.allowedOrientations = Screen.Landscape }
             MenuItem { text: qsTr("Portrait"); onClicked: screen.allowedOrientations = Screen.Portrait }
+            MenuItem { text: qsTr("Clear Cache"); onClicked: Core.clearCache() }
             MenuItem {
                 text: qsTr("About")
                 enabled: pageStack.currentPage !== null && pageStack.currentPage.objectName !== "aboutPage"

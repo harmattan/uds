@@ -45,7 +45,6 @@ Sheet {
 
                 Component.onCompleted: text = Core.settings().value("lpuser")
             }
-            Button { text: "Clear Cache"; onClicked: Core.clearCache() }
         }
     }
 
