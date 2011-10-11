@@ -17,6 +17,7 @@
 
 import QtQuick 1.1
 import com.nokia.meego 1.0
+import "../core/"
 import "../core/weekday.js" as WeekDay
 
 Page {
@@ -53,15 +54,16 @@ Page {
                 return '<font size="' + baseSize * 1.5 + '">' + firstChar + '</font>' + rest
             }
 
-            model: ListModel {}
+            visible: !busyIndicator.running
+            model: DayListModel {}
             anchors.fill: parent
             anchors.margins: 10
             clip: true
 
             delegate: ListDelegate {
-                title: listview.formattedTitle(dayOfWeek, titleSize)
+                title: listview.formattedTitle(number, titleSize)
                 onClicked: pageStack.push(Qt.resolvedUrl("ListPage.qml"),
-                                          { dayOfWeek: dayOfWeek, model: mainCalendar.sessionModel })
+                                          { dayOfWeek: number, model: mainCalendar.sessionModel })
 
                 ToolIcon {
                     platformIconId: "common-drilldown-arrow".concat(theme.inverted ? "-inverse" : "")

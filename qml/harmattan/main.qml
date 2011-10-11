@@ -26,19 +26,7 @@ import "../core/weekday.js" as WeekDay
 PageStackWindow {
     id: appWindow
 
-    property bool initialized: false
-
-    function init() {
-        for (var i = 0; i < 7; ++i) {
-            mainPage.model.append({"dayOfWeek": i})
-        }
-        initialized = true
-    }
-
     function onMainEventsChanged() {
-        if (!initialized)
-            init()
-
         if (pageStack.currentPage.objectName === 'splash')
             pageStack.replace(mainPage)
 
