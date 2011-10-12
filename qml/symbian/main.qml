@@ -73,15 +73,14 @@ Window {
         mainCalendar.eventsChanged.connect(onMainEventsChanged)
         userCalendar.eventsChanged.connect(onUserEventsChanged)
 
-//        if (Core.hasCache()) {
-//            pageStack.push(mainPage)
-//            Core.updateFromCache();
-//            Qt.createComponent("../core/UpdateTimer.qml").createObject(null)
-//            commonTools.visible = true
-//        } else {
+        if (Core.hasCache()) {
+            pageStack.push(mainPage)
+            Core.updateFromCache();
+            Qt.createComponent("../core/UpdateTimer.qml").createObject(null)
+        } else {
             statusBar.visible = false
             toolBar.visible = false
             pageStack.push(Qt.resolvedUrl('SplashPage.qml'), { objectName: 'splash' })
-//        }
+        }
     }
 }
