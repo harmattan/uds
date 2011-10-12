@@ -63,6 +63,9 @@ class NetworkParser : public ParserRunnable
 public:
     NetworkParser();
 
+signals:
+    void error(const QString &description);
+
 private slots:
     void parseReply(QNetworkReply *reply);
 
@@ -88,6 +91,16 @@ public:
 signals:
     void sessionModelChanged();
     void eventsChanged();
+
+    /**
+     * This signal is emitted when the RemoteManager encountered and error.
+     * When the signal is received the RemoteManager is in a state where error
+     * handling can be done immediately (i.e. the signal is emitted only once
+     * the function that caused the error returns to QEventLoop.
+     *
+     * \param description a human readable description of the error
+     */
+    void error(const QString &description);
 
 public slots:
     void update(const QUrl &url);

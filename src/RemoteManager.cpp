@@ -62,25 +62,29 @@ NetworkParser::NetworkParser()
 void NetworkParser::parseReply(QNetworkReply *reply)
 {
     qDebug() << Q_FUNC_INFO << "START";
-    Q_ASSERT(reply->error() == QNetworkReply::NoError);
 
-    reply->open(QIODevice::ReadOnly | QIODevice::Text);
-    QByteArray data = reply->readAll();
+    if (reply->error() != QNetworkReply::NoError) {
+        qWarning("QNR error");
+        emit error(reply->errorString());
+    } else {
+        reply->open(QIODevice::ReadOnly | QIODevice::Text);
+        QByteArray data = reply->readAll();
 
-    const QString cacheDirPath = QDesktopServices::storageLocation(QDesktopServices::CacheLocation);
-    QDir cacheDir(cacheDirPath);
-    if (!cacheDir.exists())
-        cacheDir.mkpath(cacheDirPath);
+        const QString cacheDirPath = QDesktopServices::storageLocation(QDesktopServices::CacheLocation);
+        QDir cacheDir(cacheDirPath);
+        if (!cacheDir.exists())
+            cacheDir.mkpath(cacheDirPath);
 
-    QFile f(RemoteManager::cacheFilePath(reply->url()));
-    if (!f.open(QIODevice::WriteOnly | QIODevice::Text))
-        qWarning() << "Failed to open cache file for" << reply->url() << "for writing!";
-    f.write(data);
-    f.close();
+        QFile f(RemoteManager::cacheFilePath(reply->url()));
+        if (!f.open(QIODevice::WriteOnly | QIODevice::Text))
+            qWarning() << "Failed to open cache file for" << reply->url() << "for writing!";
+        f.write(data);
+        f.close();
 
-    QCalParser parser;
-    parser.parse(data);
-    emit done(parser.eventList());
+        QCalParser parser;
+        parser.parse(data);
+        emit done(parser.eventList());
+    }
 
     reply->manager()->deleteLater();
     deleteLater();
@@ -114,6 +118,10 @@ void RemoteManager::update(const QUrl &url)
     connect(parser, SIGNAL(done(QList<QSharedPointer<QCalEvent> >)),
             this, SLOT(parsingDone(QList<QSharedPointer<QCalEvent> >)),
             Qt::QueuedConnection);
+    // Queue the error signal so we are in a well defined state when the error
+    // hits a connected object.
+    connect(parser, SIGNAL(error(QString)),
+            this, SIGNAL(error(QString)), Qt::QueuedConnection);
 
     networkAccessManager->get(QNetworkRequest(url));
 

@@ -44,12 +44,6 @@ PageStackWindow {
     DayListPage { id: mainPage }
     ListPage { id: userPage; model: userCalendar.sessionModel }
 
-    InfoBanner {
-        id: banner
-        anchors.top: parent.top
-        anchors.topMargin: 64
-    }
-
     ToolBarLayout {
         id: commonTools
         visible: false
@@ -109,9 +103,22 @@ PageStackWindow {
         }
     }
 
+    function onMainError(error) {
+        var c = Qt.createComponent(Qt.resolvedUrl("InfoBanner.qml"));
+        c.createObject(appWindow, { text: qsTr("Main Calendar:") + " " + error }).show()
+    }
+
+    function onUserError(error) {
+        var c = Qt.createComponent(Qt.resolvedUrl("InfoBanner.qml"));
+        c.createObject(appWindow, { text: qsTr("User Calendar:") + " " + error }).show()
+    }
+
     Component.onCompleted: {
         mainCalendar.eventsChanged.connect(onMainEventsChanged)
         userCalendar.eventsChanged.connect(onUserEventsChanged)
+
+        mainCalendar.error.connect(onMainError)
+        userCalendar.error.connect(onUserError)
 
         if (Core.hasCache()) {
             pageStack.push(mainPage)

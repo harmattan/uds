@@ -89,6 +89,5 @@ QVariant SessionModel::data(const QModelIndex &index, int role) const
     }
     qDebug() << Q_FUNC_INFO << "unhandled role" << role << "for index" << index;
 
-
     return QVariant();
 }
