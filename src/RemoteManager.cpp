@@ -47,7 +47,6 @@ void FileParserRunnable::run()
         parser.parse(&cacheFile);
         emit done(parser.eventList());
     } else {
-        qDebug() << Q_FUNC_INFO;
         qWarning("File '%s' could not be opened for reading.", qPrintable(m_path));
         emit done(QList<QSharedPointer<QCalEvent> >());
     }
@@ -61,7 +60,6 @@ NetworkParser::NetworkParser()
 
 void NetworkParser::parseReply(QNetworkReply *reply)
 {
-    qDebug() << Q_FUNC_INFO << "START";
 
     if (reply->error() != QNetworkReply::NoError) {
         qWarning("QNR error");
@@ -108,7 +106,6 @@ RemoteManager::~RemoteManager()
 
 void RemoteManager::update(const QUrl &url)
 {
-    qDebug() << Q_FUNC_INFO << "START" << thread();
     NetworkParser *parser = new NetworkParser;
     QNetworkAccessManager *networkAccessManager = new QNetworkAccessManager;
 
@@ -132,7 +129,6 @@ void RemoteManager::update(const QUrl &url)
 
 void RemoteManager::updateFromCache(const QUrl &url)
 {
-    qDebug() << Q_FUNC_INFO << "START";
     FileParserRunnable *parser = new FileParserRunnable(cacheFilePath(url));
     connect(parser, SIGNAL(done(QList<QSharedPointer<QCalEvent> >)),
             this, SLOT(parsingDone(QList<QSharedPointer<QCalEvent> >)),
@@ -142,7 +138,6 @@ void RemoteManager::updateFromCache(const QUrl &url)
 
 void RemoteManager::parsingDone(QList<QSharedPointer<QCalEvent> > events)
 {
-    qDebug() << Q_FUNC_INFO << "START" << events.count();
     m_sessionModel->setEvents(events);
     emit sessionModelChanged();
     emit eventsChanged();
@@ -159,16 +154,13 @@ bool RemoteManager::hasCache(const QUrl &url) const
 {
     QFile cacheFile(cacheFilePath(url));
     if (cacheFile.exists()) {
-        qDebug() << Q_FUNC_INFO << true;
         return true;
     }
-    qDebug() << Q_FUNC_INFO << false;
     return false;
 }
 
 inline QString RemoteManager::cacheFilePath(const QUrl &url)
 {
     const QString cacheDirPath = QDesktopServices::storageLocation(QDesktopServices::CacheLocation);
-    qDebug() << Q_FUNC_INFO << cacheDirPath % QLatin1Literal("/") % url.path().split("/").last();
     return cacheDirPath % QLatin1Literal("/") %  url.path().split("/").last();
 }

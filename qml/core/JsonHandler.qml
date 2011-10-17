@@ -26,15 +26,12 @@ QtObject {
         var xhr = new XMLHttpRequest();
         xhr.open("GET", url, true)
         xhr.onreadystatechange = function() {
-            console.debug("!!!!!!!!")
             if (xhr.readyState == xhr.DONE) {
-                console.debug("!!!!magic!!!!!")
 //                if (xhr.status == 200) {
-                    console.debug("!!!!200!!!!!")
+                console.debug("xhr status: " + xhr.status)
                     __loaded(JSON.parse(xhr.responseText))
 //                }
             }
-            console.debug("!!!!END!!!!!")
         }
         xhr.send();
     }

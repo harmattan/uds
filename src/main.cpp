@@ -43,7 +43,7 @@
 #include "SessionModel.h"
 #include "Settings.h"
 
-int main(int argc, char *argv[])
+Q_DECL_EXPORT int main(int argc, char *argv[])
 {
 #ifdef Q_WS_HARMATTAN
     // Cannot use the qmlapplicationviewer overload for create() as that will
