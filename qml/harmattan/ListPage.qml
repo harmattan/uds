@@ -70,8 +70,8 @@ Page {
                     appWindow.pageStack.push(Qt.resolvedUrl("EventPage.qml"),
                                              {
                                                  summary: model.summary,
-                                                 dtstart: model.startDateTime,
-                                                 dtend: model.endDateTime,
+                                                 dtstart: Qt.formatTime(model.startDateTime),
+                                                 dtend: Qt.formatTime(model.endDateTime),
                                                  location: model.location,
                                                  description: model.description,
                                                  track: model.track,

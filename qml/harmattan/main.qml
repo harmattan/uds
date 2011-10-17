@@ -64,17 +64,13 @@ PageStackWindow {
             platformIconId: "icon-m-toolbar-contact".concat(enabled ? "" : "-dimmed")
             onClicked: { pageStack.clear(); pageStack.push(userPage) }
         }
-        ToolIcon {
-            property bool canCreate: Qt.createComponent("MapPage.qml").createObject(null) !== null
-            visible: canCreate
-            enabled: pageStack.currentPage.objectName !== "mapPage"
-            platformIconId: "icon-m-toolbar-search".concat(enabled ? "" : "-dimmed")
-            onClicked: { pageStack.clear(); pageStack.push(Qt.resolvedUrl("MapPage.qml"), {objectName: "mapPage"}) }
-        }
-        ToolIcon {
-            platformIconId: "icon-m-toolbar-settings"
-            onClicked: Qt.createComponent("SettingsSheet.qml").createObject(pageStack.currentPage).open()
-        }
+//        ToolIcon {
+//            property bool canCreate: Qt.createComponent("MapPage.qml").createObject(null) !== null
+//            visible: canCreate
+//            enabled: pageStack.currentPage.objectName !== "mapPage"
+//            platformIconId: "icon-m-toolbar-search".concat(enabled ? "" : "-dimmed")
+//            onClicked: { pageStack.clear(); pageStack.push(Qt.resolvedUrl("MapPage.qml"), {objectName: "mapPage"}) }
+//        }
 
         ToolIcon {
             platformIconId: "icon-m-toolbar-refresh"
@@ -91,9 +87,10 @@ PageStackWindow {
         id: myMenu
         visualParent: pageStack
         MenuLayout {
-            MenuItem { text: qsTr("Landscape"); onClicked: screen.allowedOrientations = Screen.Landscape }
-            MenuItem { text: qsTr("Portrait"); onClicked: screen.allowedOrientations = Screen.Portrait }
+//            MenuItem { text: qsTr("Landscape"); onClicked: screen.allowedOrientations = Screen.Landscape }
+//            MenuItem { text: qsTr("Portrait"); onClicked: screen.allowedOrientations = Screen.Portrait }
             MenuItem { text: qsTr("Clear Cache"); onClicked: Core.clearCache() }
+            MenuItem { text: qsTr("Settings"); onClicked: Qt.createComponent("SettingsSheet.qml").createObject(pageStack.currentPage).open() }
             MenuItem {
                 text: qsTr("About")
                 enabled: pageStack.currentPage !== null && pageStack.currentPage.objectName !== "aboutPage"
