@@ -25,17 +25,23 @@ ListItem {
     property alias subtitle: subtitle.text
 
     Column {
-        anchors.fill: parent
+        anchors { left: parent.left; right: parent.right;
+                  verticalCenter: parent.verticalCenter;
+                  rightMargin: privateStyle.scrollBarThickness }
 
         ListItemText {
             id: title
             mode: item.mode
             role: "Title"
+            wrapMode: Text.Wrap
+            width: parent.width
         }
         ListItemText {
             id: subtitle
             mode: item.mode
             role: "SubTitle"
+            wrapMode: Text.Wrap
+            width: parent.width
         }
     }
 }

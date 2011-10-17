@@ -32,7 +32,7 @@ Page {
             model: DayListModel{}
             delegate: ListItem {
                 subItemIndicator: true
-                ListItemText { text: name }
+                ListItemText { text: name; anchors.verticalCenter: parent.verticalCenter }
                 onClicked: {
                     pageStack.push(Qt.resolvedUrl("ListPage.qml"),
                                    {
