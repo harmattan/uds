@@ -9,7 +9,7 @@ Window {
     function onMainEventsChanged() {
         if (pageStack.currentPage.objectName === 'splash')
             pageStack.replace(mainPage)
-        mainPage.busy = false
+        allPage.busy = false
 
         statusBar.visible = true
         toolBar.visible = true
@@ -24,12 +24,25 @@ Window {
     PageStack {
         id: pageStack
         anchors { left: parent.left; right: parent.right; top: statusBar.bottom; bottom: toolBar.top }
-        onDepthChanged: console.debug("DEPTH::::"+depth)
-        onCurrentPageChanged: console.debug("CURRENT CHAGED")
     }
 
-    MainPage { id: mainPage }
-    ListPage { id: userPage; model: userCalendar.sessionModel }
+    Page {
+        id: mainPage
+
+        TabBar {
+            id: tabBar
+            anchors { left: parent.left; right: parent.right; top: parent.top }
+            TabButton { tab: allPage; text: "All" }
+            TabButton { tab: userPage; text: "User" }
+        }
+
+        TabGroup {
+            id: tabGroup
+            anchors { left: parent.left; right: parent.right; top: tabBar.bottom; bottom: parent.bottom }
+            MainPage { id: allPage; pageStack: mainPage.pageStack }
+            ListPage { id: userPage; pageStack: mainPage.pageStack; model: userCalendar.sessionModel }
+        }
+    }
 
     Menu {
         id: menu
@@ -51,11 +64,6 @@ Window {
                 enabled: !(pageStack.currentPage == mainPage)
                 iconSource: "toolbar-home"
                 onClicked: { pageStack.clear(); pageStack.push(mainPage) }
-            }
-            ToolButton {
-                enabled: !(pageStack.currentPage == userPage)
-                iconSource: "toolbar-share"
-                onClicked: { pageStack.clear(); pageStack.push(userPage) }
             }
             ToolButton {
                 iconSource: "toolbar-refresh"
