@@ -24,14 +24,15 @@ Row {
     property alias label: label.text
     property alias value: value.text
 
+    anchors { left: parent.left; right: parent.right }
     spacing: 10
 
     ListItemText { id: label; font.bold: true }
     ListItemText {
         id: value;
         anchors.bottom: parent.bottom
-        wrapMode: Text.Wrap
-//        FIXME: needs width, but width is bottom up, rather than top down :(
-//        width:
+        elide: Text.ElideNone
+        wrapMode: Text.WordWrap
+        width: parent.width - label.width - 5
     }
 }
