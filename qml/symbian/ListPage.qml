@@ -46,8 +46,8 @@ Page {
                 var eventPageComponent = Qt.createComponent("EventPage.qml")
                 var eventPage = eventPageComponent.createObject(listview)
                 eventPage.summary = model.summary
-                eventPage.dtstart = model.startDateTime
-                eventPage.dtend = model.endDateTime
+                eventPage.dtstart = Qt.formatTime(model.startDateTime)
+                eventPage.dtend = Qt.formatTime(model.endDateTime)
                 eventPage.location = model.location
                 eventPage.description = model.description
                 eventPage.track = model.track

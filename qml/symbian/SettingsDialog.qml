@@ -1,13 +1,19 @@
 import QtQuick 1.0
 import com.nokia.symbian 1.0
 import "../core"
+import "../core/core.js" as Core
 
-QueryDialog {
-    titleText: qsTr("Settings")
-    acceptButtonText: qsTr("Save")
-    rejectButtonText: qsTr("Cancel")
+Page {
+    function save() {
+        Core.settings().setValue("lpuser", lpusername.text)
+    }
 
-    content: Flickable {
+    onStatusChanged: {
+        if (status === PageStatus.Deactivating)
+            save()
+    }
+
+    Flickable {
         id: container
         anchors.fill: parent
         height: 250
@@ -19,19 +25,15 @@ QueryDialog {
             width: parent.width
             spacing: 10
 
-            ListItemText { text: "Launchpad Username:" }
+            ListItemText { text: qsTr("Launchpad Username:") }
             TextField {
                 id: lpusername
                 anchors { left: parent.left; right: parent.right; }
                 height: implicitHeight
                 inputMethodHints: Qt.ImhPreferLowercase
 
-                Component.onCompleted: text = Qt.createComponent("../core/Settings.qml").createObject(null).value("lpuser")
+                Component.onCompleted: text = Core.settings().value("lpuser")
             }
         }
-    }
-
-    onAccepted: {
-        Qt.createComponent("../core/Settings.qml").createObject(null).setValue("lpuser", lpusername.text)
     }
 }

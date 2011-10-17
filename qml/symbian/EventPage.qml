@@ -43,22 +43,22 @@ Page {
                 PropertyLabel { id: room; label: "Room:"; }
             }
 
-            Image {
-                id: map
+//            Image {
+//                id: map
 
-                anchors.top: column.bottom
-                anchors.topMargin: 10
-                source: "../images/room-map.jpg"
-                width: page.width/2
-                fillMode: Image.PreserveAspectFit
+//                anchors.top: column.bottom
+//                anchors.topMargin: 10
+//                source: "../images/room-map.jpg"
+//                width: page.width/2
+//                fillMode: Image.PreserveAspectFit
 
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        pageStack.push(Qt.createComponent("RoomMapPage.qml"))
-                    }
-                }
-            }
+//                MouseArea {
+//                    anchors.fill: parent
+//                    onClicked: {
+//                        pageStack.push(Qt.createComponent("RoomMapPage.qml"))
+//                    }
+//                }
+//            }
         }
     }
 

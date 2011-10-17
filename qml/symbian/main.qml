@@ -47,6 +47,7 @@ Window {
     Menu {
         id: menu
         content: MenuLayout {
+            MenuItem { text: qsTr("Clear Cache"); onClicked: Core.clearCache() }
             MenuItem { text: qsTr("Settings"); onClicked: pageStack.push(Qt.resolvedUrl("SettingsDialog.qml")) }
         }
     }
