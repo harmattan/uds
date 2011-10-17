@@ -44,12 +44,12 @@ function update() {
 
 // -------------------------------- PRIVATE --------------------------------- //
 
-var __id = 'uds-o'
-var __name = 'UDS-O'
-var __location = 'Budapest, Hungary'
-var __time = '09 May - 13 May, 2011'
-var __location_latitude = 47.50272
-var __location_longitude = 19.0687939
+var __id = 'uds-p'
+var __name = 'UDS-P'
+var __location = 'Orlando, Florida, USA'
+var __time = '31 October - 4 November, 2011'
+var __location_latitude = 28.3586255
+var __location_longitude = -81.4874438
 
 function __ical() {
     return 'http://summit.ubuntu.com/' + settings().value("name") + '.ical'
