@@ -20,7 +20,6 @@ import com.nokia.meego 1.0
 import "../core"
 import "../core/api.js" as API
 import "../core/core.js" as Core
-import "../core/introspect.js" as Introspect
 
 Page {
     id: page

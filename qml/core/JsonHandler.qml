@@ -28,7 +28,6 @@ QtObject {
         xhr.onreadystatechange = function() {
             if (xhr.readyState == xhr.DONE) {
 //                if (xhr.status == 200) {
-                console.debug("xhr status: " + xhr.status)
                     __loaded(JSON.parse(xhr.responseText))
 //                }
             }
