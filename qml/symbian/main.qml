@@ -67,6 +67,7 @@ Window {
             MenuItem { text: qsTr("Clear Cache"); onClicked: Core.clearCache() }
             MenuItem { text: qsTr("Settings"); onClicked: pageStack.push(Qt.resolvedUrl("SettingsDialog.qml")) }
             MenuItem { text: qsTr("About"); onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml")) }
+            MenuItem { text: qsTr("Exit"); onClicked: Qt.quit() }
         }
     }
 
