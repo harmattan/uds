@@ -34,6 +34,9 @@
 #include "maemo5/MenuGroup.h"
 #include "maemo5/MenuItem.h"
 #include "maemo5/Window.h"
+#elif Q_WS_ANDROID
+#include "android/AndroidQmlAppViewer.h"
+#include "android/PageStatus.h"
 #else
 #include "qmlapplicationviewer.h"
 #endif
@@ -58,6 +61,9 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     QScopedPointer<DeclarativeShell> view(new DeclarativeShell());
 #warning TODO
 //    view->setOrientation(QmlApplicationViewer::ScreenOrientationAuto);
+#elif Q_WS_ANDROID
+    QScopedPointer<QApplication> app(new QApplication(argc, argv));
+    QScopedPointer<QmlApplicationViewer> view(new AndroidQmlAppViewer());
 #else
     QScopedPointer<QApplication> app(new QApplication(argc, argv));
     QScopedPointer<QmlApplicationViewer> view(new QmlApplicationViewer());
@@ -73,15 +79,20 @@ Q_DECL_EXPORT int main(int argc, char *argv[])
     qmlRegisterType<RemoteManager>();
     qmlRegisterType<SessionModel>();
 
-    qmlRegisterType<DesktopServices>("com.ubuntu.summit", 1, 0, "DesktopServices");
-    qmlRegisterType<FilterProxyModel>("com.ubuntu.summit", 1, 0, "FilterProxyModel");
-    qmlRegisterType<Settings>("com.ubuntu.summit", 1, 0, "Settings");
+    const char uri[] = "com.ubuntu.summit";
+    qmlRegisterType<DesktopServices>(uri, 1, 0, "DesktopServices");
+    qmlRegisterType<FilterProxyModel>(uri, 1, 0, "FilterProxyModel");
+    qmlRegisterType<Settings>(uri, 1, 0, "Settings");
 #ifdef Q_WS_MAEMO_5
-    qmlRegisterType<StackedWindow>("com.ubuntu.summit.maemo", 5, 0, "StackedWindow");
-    qmlRegisterType<MenuGroup>("com.ubuntu.summit.maemo", 5, 0, "MenuGroup");
-    qmlRegisterType<MenuItem>("com.ubuntu.summit.maemo", 5, 0, "MenuItem");
-    qmlRegisterType<Window>("com.ubuntu.summit.maemo", 5, 0, "WindowBase");
+    const char maemoUri[] = "com.ubuntu.summit.maemo";
+    qmlRegisterType<StackedWindow>(maemoUri, 5, 0, "StackedWindow");
+    qmlRegisterType<MenuGroup>(maemoUri, 5, 0, "MenuGroup");
+    qmlRegisterType<MenuItem>(maemoUri, 5, 0, "MenuItem");
+    qmlRegisterType<Window>(maemoUri, 5, 0, "WindowBase");
     qmlRegisterType<WindowStack>();
+#elif Q_WS_ANDROID
+    const char androidUri[] = "com.ubuntu.summit.android";
+    qmlRegisterUncreatableType<PageStatus>(androidUri, 1, 0, "PageStatus", "");
 #endif
 
     QDeclarativeContext *rootContext = view->rootContext();

@@ -76,6 +76,13 @@ os_harmattan {                                                       # Harmattan
     message("Building for Android")
     DEFINES += Q_WS_ANDROID
 
+    SOURCES += \
+        src/android/AndroidQmlAppViewer.cpp
+
+    HEADERS += \
+        src/android/AndroidQmlAppViewer.h \
+        src/android/PageStatus.h
+
     OTHER_FILES += \
         android/res/drawable-mdpi/icon.png \
         android/res/values/strings.xml \
@@ -148,4 +155,3 @@ os_harmattan {
 } else:os_symbian {
     ICON = icons/symbian/uds.svg
 }
-
