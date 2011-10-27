@@ -421,7 +421,7 @@ public class QtActivity extends Activity {
             c = composed;
         }
         m_lastChar = lc;
-        if (keyCode != KeyEvent.KEYCODE_BACK)
+//        if (keyCode != KeyEvent.KEYCODE_BACK)
                 QtApplication.keyDown(keyCode, c, event.getMetaState());
         return true;
     }
