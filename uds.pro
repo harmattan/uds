@@ -3,7 +3,7 @@ INCLUDEPATH += $$PWD/libqcalparser/src
 DEPENDPATH += $$PWD/libqcalparser/src
 
 TEMPLATE = app
-TARGET = UDS
+TARGET = uds
 QT += gui network
 
 # OS components can be forced by adding CONFIG+=os_name to the qmake call.
@@ -53,6 +53,8 @@ os_harmattan {                                                       # Harmattan
 } else:os_symbian {                                                    # Symbian
     message("Building for Symbian")
     DEFINES += Q_WS_SYMBIAN
+
+    DEPLOYMENT.display_name = "UDS"
     VERSION = 12.04.0
 
     symbian:TARGET.UID3 = 0xE054205C
