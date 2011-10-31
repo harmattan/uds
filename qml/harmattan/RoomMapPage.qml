@@ -67,7 +67,7 @@ Page {
             fillMode: Image.PreserveAspectFit
             scale: 1
             smooth: true
-            source: "../images/room-map.jpg"
+            source: "../images/maps/uds-p.jpeg"
             transformOrigin: Item.TopLeft
         }
 

@@ -1,5 +1,11 @@
+uds (12.04.1) unstable; urgency=low
+  * Fix time zone issue by forcing UTC conversion in libqcalparser
+  * Add UDS-P map
+
+ -- Harald Sitter <apachelogger@ubuntu.com>  Mon, 31 Oct 2011 15:55:41 +0100
+
 uds (12.04.0) unstable; urgency=low
 
   * Initial Release.
 
- -- Harald Sitter <me@unknown>  Mon, 19 Sep 2011 21:52:59 +0200
+ -- Harald Sitter <apachelogger@ubuntu.com>  Mon, 19 Sep 2011 21:52:59 +0200
